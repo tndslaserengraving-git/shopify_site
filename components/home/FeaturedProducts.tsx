@@ -4,10 +4,11 @@ import ProductCard from '@/components/ui/ProductCard';
 import { getActiveListings } from '@/lib/etsy';
 
 export default async function FeaturedProducts() {
-  const shopId = process.env.ETSY_SHOP_ID!;
   let listings: Awaited<ReturnType<typeof getActiveListings>> = [];
 
   try {
+    const shopId = process.env.ETSY_SHOP_ID;
+    if (!shopId) return null;
     const all = await getActiveListings(shopId);
     listings = all.slice(0, 4);
   } catch {

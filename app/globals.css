@@ -1,6 +1,5 @@
-@import "tailwindcss";
-
 @import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,300;0,6..12,400;0,6..12,500;0,6..12,600;0,6..12,700;1,6..12,400&family=Rubik:wght@300;400;500;600;700;800&display=swap');
+@import "tailwindcss";
 
 @theme {
   --color-navy: #1B2E4B;
@@ -11,8 +10,8 @@
   --color-steel: #2563EB;
   --color-brand-bg: #F8FAFC;
   --color-brand-text: #1E293B;
-  --font-family-heading: 'Rubik', sans-serif;
-  --font-family-body: 'Nunito Sans', sans-serif;
+  --font-heading: 'Rubik', sans-serif;
+  --font-body: 'Nunito Sans', sans-serif;
 }
 
 body {

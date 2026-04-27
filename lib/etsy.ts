@@ -1,6 +1,7 @@
 import type {
   EtsyListing,
   EtsyListingImage,
+  EtsyListingImagesResponse,
   EtsyListingsResponse,
   EtsyShopSection,
   EtsySectionsResponse,
@@ -30,7 +31,7 @@ export async function getListing(listingId: string): Promise<EtsyListing> {
 }
 
 export async function getListingImages(listingId: string): Promise<EtsyListingImage[]> {
-  const data = await etsyFetch<{ results: EtsyListingImage[] }>(
+  const data = await etsyFetch<EtsyListingImagesResponse>(
     `/listings/${listingId}/images`
   );
   return data.results;

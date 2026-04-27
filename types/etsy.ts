@@ -43,3 +43,8 @@ export interface EtsySectionsResponse {
   count: number;
   results: EtsyShopSection[];
 }
+
+export interface EtsyListingImagesResponse {
+  count: number;
+  results: EtsyListingImage[];
+}

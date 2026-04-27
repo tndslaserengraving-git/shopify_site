@@ -15,25 +15,29 @@ export interface OrderData {
   referenceImage: File | null;
 }
 
+function esc(s: string) {
+  return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
 export async function sendOrderEmail(data: OrderData): Promise<void> {
   const resend = new Resend(process.env.RESEND_API_KEY);
   const rows = [
-    ['Product Type', data.productType],
-    ['Text to Engrave', data.engraveText],
-    ['Size', data.size],
+    ['Product Type', esc(data.productType)],
+    ['Text to Engrave', esc(data.engraveText)],
+    ['Size', esc(data.size)],
     ['Quantity', String(data.quantity)],
-    ['Material', data.material || 'Not specified'],
-    ['Design Style', data.designStyle],
-    ['Notes', data.notes || 'None'],
-    ['Phone', data.phone || 'Not provided'],
-    ['Preferred Contact', data.contactMethod],
+    ['Material', esc(data.material || 'Not specified')],
+    ['Design Style', esc(data.designStyle)],
+    ['Notes', esc(data.notes || 'None')],
+    ['Phone', esc(data.phone || 'Not provided')],
+    ['Preferred Contact', esc(data.contactMethod)],
   ]
     .map(([k, v]) => `<tr><td style="padding:4px 12px 4px 0;font-weight:600">${k}:</td><td>${v}</td></tr>`)
     .join('');
 
   const html = `
-    <h2 style="color:#1B2E4B">New Custom Order from ${data.name}</h2>
-    <p><strong>Reply to:</strong> ${data.email}</p>
+    <h2 style="color:#1B2E4B">New Custom Order from ${esc(data.name)}</h2>
+    <p><strong>Reply to:</strong> ${esc(data.email)}</p>
     <table style="font-family:sans-serif;font-size:14px;border-collapse:collapse">
       ${rows}
     </table>
@@ -46,7 +50,7 @@ export async function sendOrderEmail(data: OrderData): Promise<void> {
   }
 
   await resend.emails.send({
-    from: 'onboarding@resend.dev',
+    from: process.env.FROM_EMAIL ?? 'onboarding@resend.dev',
     to: process.env.OWNER_EMAIL!,
     replyTo: data.email,
     subject: `New Custom Order — ${data.productType} — ${data.name}`,

@@ -12,6 +12,12 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
   }
 
+  const referenceImage = formData.get('referenceImage') as File | null;
+  const MAX_BYTES = 10 * 1024 * 1024; // 10 MB
+  if (referenceImage instanceof File && referenceImage.size > MAX_BYTES) {
+    return NextResponse.json({ error: 'Image too large (max 10 MB)' }, { status: 413 });
+  }
+
   try {
     await sendOrderEmail({
       name,
@@ -25,7 +31,7 @@ export async function POST(req: NextRequest) {
       notes: (formData.get('notes') as string) ?? '',
       phone: (formData.get('phone') as string) ?? '',
       contactMethod: (formData.get('contactMethod') as string) ?? 'email',
-      referenceImage: formData.get('referenceImage') as File | null,
+      referenceImage,
     });
     return NextResponse.json({ success: true });
   } catch (err) {

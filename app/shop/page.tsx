@@ -1,3 +1,4 @@
+import type { EtsyListing, EtsyShopSection } from '@/types/etsy';
 import { getActiveListings, getShopSections } from '@/lib/etsy';
 import ProductGrid from '@/components/shop/ProductGrid';
 
@@ -5,16 +6,16 @@ export const revalidate = 3600;
 
 export default async function ShopPage() {
   const shopId = process.env.ETSY_SHOP_ID!;
-  let listings = [];
-  let sections = [];
+  let listings: EtsyListing[] = [];
+  let sections: EtsyShopSection[] = [];
 
   try {
     [listings, sections] = await Promise.all([
       getActiveListings(shopId),
       getShopSections(shopId),
     ]);
-  } catch {
-    // Serve empty state on API failure
+  } catch (e) {
+    console.error('[ShopPage] Etsy fetch failed:', e);
   }
 
   return (

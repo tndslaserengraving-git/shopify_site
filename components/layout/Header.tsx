@@ -65,7 +65,7 @@ export default function Header() {
             ))}
             <Link
               href="/custom-order"
-              className="bg-patriot-red text-white font-body font-semibold text-sm px-4 py-2 rounded-md w-fit"
+              className="bg-patriot-red hover:bg-patriot-red-dark text-white font-body font-semibold text-sm px-4 py-2 rounded-md w-fit transition-colors duration-150"
               onClick={() => setOpen(false)}
             >
               Custom Order

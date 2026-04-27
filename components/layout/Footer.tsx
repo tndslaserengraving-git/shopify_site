@@ -42,9 +42,11 @@ export default function Footer() {
               >
                 <ExternalLink size={20} />
               </a>
+              {/* Placeholder: replace Camera with Instagram icon when lucide-react adds it */}
               <a href="#" className="text-white/70 hover:text-white transition-colors" aria-label="Instagram">
                 <Camera size={20} />
               </a>
+              {/* Placeholder: replace Globe with Facebook icon when lucide-react adds it */}
               <a href="#" className="text-white/70 hover:text-white transition-colors" aria-label="Facebook">
                 <Globe size={20} />
               </a>

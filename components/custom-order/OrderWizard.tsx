@@ -50,6 +50,7 @@ export default function OrderWizard() {
     try {
       const formData = new FormData();
       (Object.entries(state) as [string, unknown][]).forEach(([k, v]) => {
+        if (k === 'step') return;
         if (v instanceof File) formData.append(k, v);
         else if (v !== null && v !== undefined) formData.append(k, String(v));
       });

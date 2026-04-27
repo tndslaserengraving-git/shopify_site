@@ -1,3 +1,4 @@
+'use client';
 import type { WizardState, ContactMethod } from '@/types/wizard';
 
 interface Props {

@@ -1,3 +1,4 @@
+'use client';
 import type { WizardState, DesignStyle } from '@/types/wizard';
 import { SIZE_OPTIONS } from '@/types/wizard';
 

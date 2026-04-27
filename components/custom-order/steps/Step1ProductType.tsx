@@ -1,3 +1,4 @@
+'use client';
 import type { WizardState, ProductType } from '@/types/wizard';
 import { PRODUCT_TYPE_LABELS } from '@/types/wizard';
 

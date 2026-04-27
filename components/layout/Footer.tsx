@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Share2, ExternalLink } from 'lucide-react';
+import { Camera, Globe, ExternalLink } from 'lucide-react';
 import VeteranBadge from '@/components/ui/VeteranBadge';
 
 export default function Footer() {
@@ -43,10 +43,10 @@ export default function Footer() {
                 <ExternalLink size={20} />
               </a>
               <a href="#" className="text-white/70 hover:text-white transition-colors" aria-label="Instagram">
-                <Share2 size={20} />
+                <Camera size={20} />
               </a>
               <a href="#" className="text-white/70 hover:text-white transition-colors" aria-label="Facebook">
-                <Share2 size={20} />
+                <Globe size={20} />
               </a>
             </div>
           </div>

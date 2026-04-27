@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { ExternalLink, ArrowLeft } from 'lucide-react';
 import { getListing, getListingImages, formatPrice } from '@/lib/etsy';
+import type { EtsyListing, EtsyListingImage } from '@/types/etsy';
 
 export const revalidate = 3600;
 
@@ -13,7 +14,8 @@ interface Props {
 export default async function ListingPage({ params }: Props) {
   const { listingId } = await params;
 
-  let listing, images;
+  let listing: EtsyListing | undefined;
+  let images: EtsyListingImage[] | undefined;
   try {
     [listing, images] = await Promise.all([
       getListing(listingId),
@@ -22,6 +24,8 @@ export default async function ListingPage({ params }: Props) {
   } catch {
     notFound();
   }
+
+  if (!listing || !images) notFound();
 
   if (listing.state !== 'active') notFound();
 

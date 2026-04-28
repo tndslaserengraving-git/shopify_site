@@ -36,17 +36,17 @@ export default function AboutPage() {
             body: "We're not satisfied until you are. Every piece leaves our studio with pride.",
           },
         ].map(({ icon: Icon, title, body }) => (
-          <div key={title} className="text-center p-6 rounded-xl bg-navy/5">
+          <div key={title} className="text-center p-6 rounded-xl bg-white/5">
             <Icon className="text-patriot-red mx-auto mb-3" size={28} aria-hidden="true" />
-            <h3 className="font-heading font-bold text-navy text-lg mb-2">{title}</h3>
-            <p className="font-body text-brand-text/70 text-sm leading-relaxed">{body}</p>
+            <h3 className="font-heading font-bold text-white text-lg mb-2">{title}</h3>
+            <p className="font-body text-white/50 text-sm leading-relaxed">{body}</p>
           </div>
         ))}
       </div>
 
       <div>
-        <h2 className="font-heading font-bold text-navy text-2xl mb-4">Our Story</h2>
-        <div className="space-y-4 font-body text-brand-text/75 text-base leading-relaxed">
+        <h2 className="font-heading font-bold text-white text-2xl mb-4">Our Story</h2>
+        <div className="space-y-4 font-body text-white/50 text-base leading-relaxed">
           <p>
             After years of military service, our founder discovered a love for craftsmanship
             and the art of laser engraving. What started as a hobby quickly became a passion —

@@ -12,7 +12,7 @@ export default function ProductCard({ listing }: Props) {
   const price = formatPrice(listing.price);
 
   return (
-    <div className="rounded-xl overflow-hidden backdrop-blur-sm bg-white/80 border border-white/20 shadow-md hover:shadow-xl transition-shadow duration-200 flex flex-col">
+    <div className="rounded-xl overflow-hidden backdrop-blur-sm bg-white/5 border border-white/10 shadow-md hover:shadow-xl transition-shadow duration-200 flex flex-col">
       {image ? (
         <div className="relative aspect-square">
           <Image
@@ -24,20 +24,20 @@ export default function ProductCard({ listing }: Props) {
           />
         </div>
       ) : (
-        <div className="aspect-square bg-navy/10 flex items-center justify-center">
-          <span className="font-body text-navy/30 text-sm">No image</span>
+        <div className="aspect-square bg-white/10 flex items-center justify-center">
+          <span className="font-body text-white/30 text-sm">No image</span>
         </div>
       )}
       <div className="p-4 flex flex-col gap-2 flex-1">
-        <h3 className="font-heading font-semibold text-brand-text text-sm line-clamp-2 flex-1">
+        <h3 className="font-heading font-semibold text-white text-sm line-clamp-2 flex-1">
           {listing.title}
         </h3>
-        <p className="font-body font-bold text-navy text-base">{price}</p>
+        <p className="font-body font-bold text-white text-base">{price}</p>
         <a
           href={listing.url}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-1 text-steel hover:text-navy text-xs font-body font-medium transition-colors cursor-pointer"
+          className="inline-flex items-center gap-1 text-steel hover:text-patriot-red text-xs font-body font-medium transition-colors cursor-pointer"
         >
           View on Etsy <ExternalLink size={12} aria-hidden="true" />
         </a>

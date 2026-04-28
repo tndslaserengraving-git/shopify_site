@@ -25,7 +25,7 @@ export default function ProductGrid({ listings, sections }: Props) {
             className={`font-body text-sm px-4 py-1.5 rounded-full border transition-colors cursor-pointer ${
               activeSection === null
                 ? 'bg-navy text-white border-navy'
-                : 'border-navy/30 text-navy/70 hover:border-navy hover:text-navy'
+                : 'border-white/25 text-white/50 hover:border-white/25 hover:text-patriot-red'
             }`}
           >
             All
@@ -37,7 +37,7 @@ export default function ProductGrid({ listings, sections }: Props) {
               className={`font-body text-sm px-4 py-1.5 rounded-full border transition-colors cursor-pointer ${
                 activeSection === s.shop_section_id
                   ? 'bg-navy text-white border-navy'
-                  : 'border-navy/30 text-navy/70 hover:border-navy hover:text-navy'
+                  : 'border-white/25 text-white/50 hover:border-white/25 hover:text-patriot-red'
               }`}
             >
               {s.title}
@@ -47,7 +47,7 @@ export default function ProductGrid({ listings, sections }: Props) {
       )}
 
       {filtered.length === 0 ? (
-        <p className="font-body text-brand-text/50 text-center py-16">No products found.</p>
+        <p className="font-body text-white/40 text-center py-16">No products found.</p>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {filtered.map((listing) => (

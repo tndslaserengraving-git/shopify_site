@@ -22,14 +22,14 @@ export default function Step2Details({ state, update }: Props) {
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="font-heading font-bold text-navy text-2xl mb-1">
+        <h2 className="font-heading font-bold text-white text-2xl mb-1">
           Tell us about your engraving
         </h2>
-        <p className="font-body text-brand-text/60 text-sm">Fill in as much as you know — we'll follow up with questions.</p>
+        <p className="font-body text-white/50 text-sm">Fill in as much as you know — we'll follow up with questions.</p>
       </div>
 
       <div>
-        <label htmlFor="engraveText" className="font-body font-semibold text-navy text-sm block mb-1.5">
+        <label htmlFor="engraveText" className="font-body font-semibold text-white text-sm block mb-1.5">
           Text to Engrave <span className="text-patriot-red">*</span>
         </label>
         <input
@@ -38,20 +38,20 @@ export default function Step2Details({ state, update }: Props) {
           value={state.engraveText}
           onChange={(e) => update({ engraveText: e.target.value })}
           placeholder="e.g. The Johnson Family · Est. 2019"
-          className="w-full border border-navy/20 rounded-lg px-4 py-2.5 font-body text-sm text-brand-text focus:outline-none focus:border-navy focus:ring-1 focus:ring-navy"
+          className="w-full border border-white/15 rounded-lg px-4 py-2.5 font-body text-sm text-white focus:outline-none focus:border-patriot-red focus:ring-1 focus:ring-patriot-red bg-white/5"
         />
       </div>
 
       <div className="grid grid-cols-2 gap-4">
         <div>
-          <label htmlFor="size" className="font-body font-semibold text-navy text-sm block mb-1.5">
+          <label htmlFor="size" className="font-body font-semibold text-white text-sm block mb-1.5">
             Size <span className="text-patriot-red">*</span>
           </label>
           <select
             id="size"
             value={state.size}
             onChange={(e) => update({ size: e.target.value })}
-            className="w-full border border-navy/20 rounded-lg px-4 py-2.5 font-body text-sm text-brand-text focus:outline-none focus:border-navy focus:ring-1 focus:ring-navy bg-white cursor-pointer"
+            className="w-full border border-white/15 rounded-lg px-4 py-2.5 font-body text-sm text-white focus:outline-none focus:border-patriot-red focus:ring-1 focus:ring-patriot-red bg-navy cursor-pointer"
           >
             <option value="">Select…</option>
             {sizeOptions.map((s) => (
@@ -61,7 +61,7 @@ export default function Step2Details({ state, update }: Props) {
         </div>
 
         <div>
-          <label htmlFor="quantity" className="font-body font-semibold text-navy text-sm block mb-1.5">
+          <label htmlFor="quantity" className="font-body font-semibold text-white text-sm block mb-1.5">
             Quantity
           </label>
           <input
@@ -71,14 +71,14 @@ export default function Step2Details({ state, update }: Props) {
             max={500}
             value={state.quantity}
             onChange={(e) => update({ quantity: Math.max(1, Number(e.target.value)) })}
-            className="w-full border border-navy/20 rounded-lg px-4 py-2.5 font-body text-sm text-brand-text focus:outline-none focus:border-navy focus:ring-1 focus:ring-navy"
+            className="w-full border border-white/15 rounded-lg px-4 py-2.5 font-body text-sm text-white focus:outline-none focus:border-patriot-red focus:ring-1 focus:ring-patriot-red bg-white/5"
           />
         </div>
       </div>
 
       {(state.productType === 'cutting-board' || state.productType === 'granite') && (
         <div>
-          <label htmlFor="material" className="font-body font-semibold text-navy text-sm block mb-1.5">
+          <label htmlFor="material" className="font-body font-semibold text-white text-sm block mb-1.5">
             Material Preference
           </label>
           <input
@@ -87,13 +87,13 @@ export default function Step2Details({ state, update }: Props) {
             value={state.material}
             onChange={(e) => update({ material: e.target.value })}
             placeholder="e.g. Maple, Walnut, Cherry…"
-            className="w-full border border-navy/20 rounded-lg px-4 py-2.5 font-body text-sm text-brand-text focus:outline-none focus:border-navy focus:ring-1 focus:ring-navy"
+            className="w-full border border-white/15 rounded-lg px-4 py-2.5 font-body text-sm text-white focus:outline-none focus:border-patriot-red focus:ring-1 focus:ring-patriot-red bg-white/5"
           />
         </div>
       )}
 
       <div>
-        <p className="font-body font-semibold text-navy text-sm mb-2">Design Style</p>
+        <p className="font-body font-semibold text-white text-sm mb-2">Design Style</p>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
           {DESIGN_STYLES.map(({ value, label, desc }) => (
             <button
@@ -102,11 +102,11 @@ export default function Step2Details({ state, update }: Props) {
               className={`p-3 rounded-xl border-2 text-left transition-all cursor-pointer ${
                 state.designStyle === value
                   ? 'border-patriot-red bg-patriot-red/5'
-                  : 'border-navy/15 hover:border-navy/40'
+                  : 'border-white/10 hover:border-white/25'
               }`}
             >
-              <p className="font-body font-semibold text-navy text-sm">{label}</p>
-              <p className="font-body text-brand-text/60 text-xs mt-0.5">{desc}</p>
+              <p className="font-body font-semibold text-white text-sm">{label}</p>
+              <p className="font-body text-white/50 text-xs mt-0.5">{desc}</p>
             </button>
           ))}
         </div>

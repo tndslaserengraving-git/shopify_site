@@ -36,7 +36,7 @@ export default async function ListingPage({ params }: Props) {
     <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <Link
         href="/shop"
-        className="inline-flex items-center gap-1 font-body text-sm text-steel hover:text-navy transition-colors mb-8"
+        className="inline-flex items-center gap-1 font-body text-sm text-steel hover:text-patriot-red transition-colors mb-8"
       >
         <ArrowLeft size={16} aria-hidden="true" /> Back to Shop
       </Link>
@@ -54,8 +54,8 @@ export default async function ListingPage({ params }: Props) {
               />
             </div>
           ) : (
-            <div className="aspect-square bg-navy/10 rounded-xl flex items-center justify-center">
-              <span className="font-body text-navy/30">No image</span>
+            <div className="aspect-square bg-white/10 rounded-xl flex items-center justify-center">
+              <span className="font-body text-white/30">No image</span>
             </div>
           )}
 
@@ -79,12 +79,12 @@ export default async function ListingPage({ params }: Props) {
         </div>
 
         <div>
-          <h1 className="font-heading font-bold text-navy text-2xl sm:text-3xl mb-3">
+          <h1 className="font-heading font-bold text-white text-2xl sm:text-3xl mb-3">
             {listing.title}
           </h1>
           <p className="font-body font-bold text-2xl text-patriot-red mb-6">{price}</p>
 
-          <p className="font-body text-brand-text/75 text-base leading-relaxed mb-8 whitespace-pre-line">
+          <p className="font-body text-white/50 text-base leading-relaxed mb-8 whitespace-pre-line">
             {listing.description}
           </p>
 
@@ -100,7 +100,7 @@ export default async function ListingPage({ params }: Props) {
           <div className="mt-4">
             <Link
               href="/custom-order"
-              className="font-body text-sm text-steel hover:text-navy underline"
+              className="font-body text-sm text-steel hover:text-patriot-red underline"
             >
               Need something custom? Start an order →
             </Link>

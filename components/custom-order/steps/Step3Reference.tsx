@@ -19,16 +19,16 @@ export default function Step3Reference({ state, update }: Props) {
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="font-heading font-bold text-navy text-2xl mb-1">
+        <h2 className="font-heading font-bold text-white text-2xl mb-1">
           Reference &amp; Notes
         </h2>
-        <p className="font-body text-brand-text/60 text-sm">
+        <p className="font-body text-white/50 text-sm">
           Optional — upload a logo, photo, or design idea. Add any extra details below.
         </p>
       </div>
 
       <div>
-        <p className="font-body font-semibold text-navy text-sm mb-2">Reference Image (optional)</p>
+        <p className="font-body font-semibold text-white text-sm mb-2">Reference Image (optional)</p>
         <div
           onClick={() => inputRef.current?.click()}
           onDragOver={(e) => e.preventDefault()}
@@ -36,11 +36,11 @@ export default function Step3Reference({ state, update }: Props) {
             e.preventDefault();
             handleFile(e.dataTransfer.files[0]);
           }}
-          className="border-2 border-dashed border-navy/20 rounded-xl p-8 text-center cursor-pointer hover:border-navy/40 transition-colors"
+          className="border-2 border-dashed border-white/15 rounded-xl p-8 text-center cursor-pointer hover:border-white/25 transition-colors"
         >
           {state.referenceImage ? (
             <div className="flex items-center justify-center gap-3">
-              <span className="font-body text-sm text-navy font-medium">
+              <span className="font-body text-sm text-white font-medium">
                 {state.referenceImage.name}
               </span>
               <button
@@ -56,11 +56,11 @@ export default function Step3Reference({ state, update }: Props) {
             </div>
           ) : (
             <div>
-              <Upload className="mx-auto text-navy/30 mb-2" size={28} aria-hidden="true" />
-              <p className="font-body text-sm text-navy/50">
+              <Upload className="mx-auto text-white/30 mb-2" size={28} aria-hidden="true" />
+              <p className="font-body text-sm text-white/50">
                 Drag &amp; drop or <span className="text-steel underline">browse</span>
               </p>
-              <p className="font-body text-xs text-navy/30 mt-1">JPG, PNG, SVG, PDF up to 10MB</p>
+              <p className="font-body text-xs text-white/30 mt-1">JPG, PNG, SVG, PDF up to 10MB</p>
             </div>
           )}
         </div>
@@ -74,7 +74,7 @@ export default function Step3Reference({ state, update }: Props) {
       </div>
 
       <div>
-        <label htmlFor="notes" className="font-body font-semibold text-navy text-sm block mb-1.5">
+        <label htmlFor="notes" className="font-body font-semibold text-white text-sm block mb-1.5">
           Additional Notes
         </label>
         <textarea
@@ -83,7 +83,7 @@ export default function Step3Reference({ state, update }: Props) {
           value={state.notes}
           onChange={(e) => update({ notes: e.target.value })}
           placeholder="Any other details, font preferences, inspiration, deadline…"
-          className="w-full border border-navy/20 rounded-lg px-4 py-2.5 font-body text-sm text-brand-text focus:outline-none focus:border-navy focus:ring-1 focus:ring-navy resize-none"
+          className="w-full border border-white/15 rounded-lg px-4 py-2.5 font-body text-sm text-white bg-white/5 focus:outline-none focus:border-patriot-red focus:ring-1 focus:ring-patriot-red resize-none"
         />
       </div>
     </div>

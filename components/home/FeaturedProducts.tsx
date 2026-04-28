@@ -20,10 +20,10 @@ export default async function FeaturedProducts() {
   return (
     <section className="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
       <div className="flex items-center justify-between mb-8">
-        <h2 className="font-heading font-bold text-navy text-3xl">Featured Products</h2>
+        <h2 className="font-heading font-bold text-white text-3xl">Featured Products</h2>
         <Link
           href="/shop"
-          className="inline-flex items-center gap-1 font-body text-sm font-medium text-steel hover:text-navy transition-colors"
+          className="inline-flex items-center gap-1 font-body text-sm font-medium text-steel hover:text-patriot-red transition-colors"
         >
           See All <ArrowRight size={16} aria-hidden="true" />
         </Link>

@@ -71,11 +71,11 @@ export default function OrderWizard() {
     return (
       <div className="text-center py-16 max-w-md mx-auto">
         <div className="text-4xl mb-4" aria-hidden="true">✅</div>
-        <h2 className="font-heading font-bold text-navy text-3xl mb-3">Request Received!</h2>
-        <p className="font-body text-brand-text/70 text-base mb-6">
+        <h2 className="font-heading font-bold text-white text-3xl mb-3">Request Received!</h2>
+        <p className="font-body text-white/50 text-base mb-6">
           We'll be in touch within 24–48 hours.
         </p>
-        <Link href="/shop" className="font-body text-steel hover:text-navy underline text-sm">
+        <Link href="/shop" className="font-body text-steel hover:text-patriot-red underline text-sm">
           Browse the shop while you wait →
         </Link>
       </div>
@@ -98,7 +98,7 @@ export default function OrderWizard() {
           ))}
         </div>
         <div
-          className="h-1.5 bg-navy/10 rounded-full"
+          className="h-1.5 bg-white/10 rounded-full"
           role="progressbar"
           aria-valuenow={state.step}
           aria-valuemin={1}

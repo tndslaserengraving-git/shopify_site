@@ -37,14 +37,18 @@ export default function ContactPage() {
           </div>
         </a>
 
-        {/* Instagram placeholder — replace when real handle known */}
-        <div className="flex items-center gap-4 p-5 rounded-xl bg-navy/5">
+        <a
+          href="https://www.instagram.com/tndslaserengraving"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center gap-4 p-5 rounded-xl bg-navy/5 hover:bg-white/5 transition-colors"
+        >
           <Camera className="text-patriot-red flex-shrink-0" size={24} aria-hidden="true" />
           <div>
             <p className="font-body font-semibold text-white text-sm">Instagram</p>
-            <p className="font-body text-white/50 text-sm">Coming soon</p>
+            <p className="font-body text-white/50 text-sm">@tndslaserengraving</p>
           </div>
-        </div>
+        </a>
       </div>
 
       <div className="mt-10 p-6 bg-navy rounded-xl text-center">

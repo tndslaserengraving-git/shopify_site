@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import { Camera, Globe, ExternalLink } from 'lucide-react';
+import { Camera, PlayCircle, ExternalLink } from 'lucide-react';
 import VeteranBadge from '@/components/ui/VeteranBadge';
 
 export default function Footer() {
@@ -49,13 +49,11 @@ export default function Footer() {
               >
                 <ExternalLink size={20} />
               </a>
-              {/* Placeholder: replace Camera with Instagram icon when lucide-react adds it */}
-              <a href="#" className="text-white/70 hover:text-white transition-colors" aria-label="Instagram">
+              <a href="https://www.instagram.com/tndslaserengraving" target="_blank" rel="noopener noreferrer" className="text-white/70 hover:text-white transition-colors" aria-label="Instagram">
                 <Camera size={20} />
               </a>
-              {/* Placeholder: replace Globe with Facebook icon when lucide-react adds it */}
-              <a href="#" className="text-white/70 hover:text-white transition-colors" aria-label="Facebook">
-                <Globe size={20} />
+              <a href="https://www.youtube.com/@TNDSLaserEngraving" target="_blank" rel="noopener noreferrer" className="text-white/70 hover:text-white transition-colors" aria-label="YouTube">
+                <PlayCircle size={20} />
               </a>
             </div>
           </div>

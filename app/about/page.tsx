@@ -54,8 +54,8 @@ export default function AboutPage() {
           </p>
           <p>
             Based in the United States, Top Notch Design Studio specializes in custom laser
-            engraving on wood cutting boards, granite, acrylic, and paper. We work with
-            individuals, families, and businesses to create pieces that last a lifetime.
+            engraving on wood, slate, acrylic, glass, and metal. We work with individuals,
+            families, and businesses to create pieces that last a lifetime.
           </p>
           <p>
             Whether you need a wedding gift, a set of branded business cards, or a

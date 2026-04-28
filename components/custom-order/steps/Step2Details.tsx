@@ -1,6 +1,6 @@
 'use client';
-import type { WizardState, DesignStyle } from '@/types/wizard';
-import { SIZE_OPTIONS } from '@/types/wizard';
+import type { WizardState, DesignStyle, Material } from '@/types/wizard';
+import { SIZE_OPTIONS, MATERIAL_LABELS } from '@/types/wizard';
 
 interface Props {
   state: WizardState;
@@ -76,21 +76,24 @@ export default function Step2Details({ state, update }: Props) {
         </div>
       </div>
 
-      {(state.productType === 'cutting-board' || state.productType === 'granite') && (
-        <div>
-          <label htmlFor="material" className="font-body font-semibold text-white text-sm block mb-1.5">
-            Material Preference
-          </label>
-          <input
-            id="material"
-            type="text"
-            value={state.material}
-            onChange={(e) => update({ material: e.target.value })}
-            placeholder="e.g. Maple, Walnut, Cherry…"
-            className="w-full border border-white/15 rounded-lg px-4 py-2.5 font-body text-sm text-white focus:outline-none focus:border-patriot-red focus:ring-1 focus:ring-patriot-red bg-white/5"
-          />
+      <div>
+        <p className="font-body font-semibold text-white text-sm mb-2">Material</p>
+        <div className="grid grid-cols-3 sm:grid-cols-5 gap-2">
+          {(Object.entries(MATERIAL_LABELS) as [Material, string][]).map(([value, label]) => (
+            <button
+              key={value}
+              onClick={() => update({ material: state.material === value ? '' : value })}
+              className={`p-3 rounded-xl border-2 text-center transition-all cursor-pointer ${
+                state.material === value
+                  ? 'border-patriot-red bg-patriot-red/10 text-white'
+                  : 'border-white/10 hover:border-white/25 text-white/70'
+              }`}
+            >
+              <span className="font-body font-semibold text-sm">{label}</span>
+            </button>
+          ))}
         </div>
-      )}
+      </div>
 
       <div>
         <p className="font-body font-semibold text-white text-sm mb-2">Design Style</p>

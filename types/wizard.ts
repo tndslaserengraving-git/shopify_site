@@ -5,6 +5,7 @@ export type ProductType =
   | 'acrylic'
   | 'other';
 
+export type Material = 'wood' | 'slate' | 'acrylic' | 'glass' | 'metal';
 export type DesignStyle = 'text' | 'artwork' | 'upload';
 export type ContactMethod = 'email' | 'phone';
 
@@ -14,7 +15,7 @@ export interface WizardState {
   engraveText: string;
   size: string;
   quantity: number;
-  material: string;
+  material: Material | '';
   designStyle: DesignStyle | '';
   referenceImage: File | null;
   notes: string;
@@ -46,6 +47,14 @@ export const PRODUCT_TYPE_LABELS: Record<ProductType, string> = {
   granite: 'Granite Cutting Board',
   acrylic: 'Acrylic',
   other: 'Custom / Other',
+};
+
+export const MATERIAL_LABELS: Record<Material, string> = {
+  wood: 'Wood',
+  slate: 'Slate',
+  acrylic: 'Acrylic',
+  glass: 'Glass',
+  metal: 'Metal',
 };
 
 export const SIZE_OPTIONS: Record<ProductType, string[]> = {

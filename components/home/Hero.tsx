@@ -41,7 +41,7 @@ export default function Hero() {
             </h1>
 
             <p className="font-body text-white/75 text-lg sm:text-xl max-w-xl mb-8 leading-relaxed">
-              Custom laser engraving for cutting boards, business cards, granite, and more.
+              Custom laser engraving on wood, slate, acrylic, glass, and metal.
               Every piece made with military precision and American pride.
             </p>
 

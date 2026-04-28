@@ -14,7 +14,7 @@ export default function Hero() {
         style={{
           backgroundImage: `repeating-linear-gradient(
             45deg, transparent, transparent 40px,
-            rgba(212,175,55,0.5) 40px, rgba(212,175,55,0.5) 41px
+            rgba(193,136,19,0.5) 40px, rgba(193,136,19,0.5) 41px
           ), repeating-linear-gradient(
             -45deg, transparent, transparent 40px,
             rgba(255,255,255,0.3) 40px, rgba(255,255,255,0.3) 41px

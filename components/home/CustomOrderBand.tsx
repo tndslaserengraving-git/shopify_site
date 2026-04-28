@@ -5,7 +5,7 @@ export default function CustomOrderBand() {
   return (
     <section
       className="py-20 px-4 text-center"
-      style={{ background: 'linear-gradient(135deg, #1A1A1A 0%, #D4AF37 100%)' }}
+      style={{ background: 'linear-gradient(135deg, #1A1A1A 0%, #C18813 100%)' }}
     >
       <h2 className="font-heading font-bold text-white text-3xl sm:text-4xl mb-4">
         Have something specific in mind?

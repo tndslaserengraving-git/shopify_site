@@ -1,6 +1,7 @@
 'use client';
 import { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Menu, X } from 'lucide-react';
 import VeteranBadge from '@/components/ui/VeteranBadge';
 
@@ -17,10 +18,15 @@ export default function Header() {
     <header className="bg-navy sticky top-0 z-40 shadow-md">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          <Link href="/" className="flex flex-col leading-tight">
-            <span className="font-heading font-bold text-white text-base sm:text-lg">
-              Top Notch Design Studio
-            </span>
+          <Link href="/" className="flex items-center gap-3">
+            <Image
+              src="/TNDS Logo.jpeg"
+              alt="Top Notch Design Studio"
+              width={48}
+              height={48}
+              className="rounded-sm"
+              priority
+            />
             <VeteranBadge size="sm" />
           </Link>
 

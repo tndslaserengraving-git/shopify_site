@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { Camera, Globe, ExternalLink } from 'lucide-react';
 import VeteranBadge from '@/components/ui/VeteranBadge';
 
@@ -8,7 +9,13 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div>
-            <p className="font-heading font-bold text-lg mb-2">Top Notch Design Studio</p>
+            <Image
+              src="/TNDS Logo.jpeg"
+              alt="Top Notch Design Studio"
+              width={80}
+              height={80}
+              className="rounded-sm mb-3"
+            />
             <VeteranBadge size="sm" className="mb-3" />
             <p className="font-body text-white/60 text-sm">
               Precision laser engraving. Every piece crafted with care and military precision.

@@ -42,7 +42,7 @@ export default function WizardNavigation({
         <button
           onClick={onNext}
           disabled={!canAdvance}
-          className="bg-navy hover:bg-navy-light disabled:opacity-40 disabled:cursor-not-allowed text-white font-body font-semibold px-6 py-2.5 rounded-md transition-colors cursor-pointer"
+          className="bg-patriot-red hover:bg-patriot-red-dark disabled:opacity-40 disabled:cursor-not-allowed text-white font-body font-semibold px-6 py-2.5 rounded-md transition-colors cursor-pointer"
         >
           Next →
         </button>

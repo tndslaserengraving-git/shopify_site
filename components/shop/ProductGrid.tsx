@@ -1,57 +1,79 @@
 'use client';
 import { useState } from 'react';
 import ProductCard from '@/components/ui/ProductCard';
-import type { EtsyListing, EtsyShopSection } from '@/types/etsy';
+import type { ShopifyProduct, ShopifyCollection } from '@/types/shopify';
 
 interface Props {
-  listings: EtsyListing[];
-  sections: EtsyShopSection[];
+  products: ShopifyProduct[];
+  collections: ShopifyCollection[];
 }
 
-export default function ProductGrid({ listings, sections }: Props) {
-  const [activeSection, setActiveSection] = useState<number | null>(null);
+export default function ProductGrid({ products, collections }: Props) {
+  const [activeCollection, setActiveCollection] = useState<string | null>(null);
 
   const filtered =
-    activeSection === null
-      ? listings
-      : listings.filter((l) => l.shop_section_id === activeSection);
+    activeCollection === null
+      ? products
+      : products.filter((p) => p.collections.some((c) => c.id === activeCollection));
 
   return (
     <div>
-      {sections.length > 0 && (
+      {collections.length > 0 && (
         <div className="flex flex-wrap gap-2 mb-8">
           <button
-            onClick={() => setActiveSection(null)}
-            className={`font-body text-sm px-4 py-1.5 rounded-full border transition-colors cursor-pointer ${
-              activeSection === null
-                ? 'bg-navy text-white border-navy'
-                : 'border-white/25 text-white/50 hover:border-white/25 hover:text-patriot-red'
-            }`}
+            onClick={() => setActiveCollection(null)}
+            className="font-body font-semibold text-xs px-4 py-2 rounded-sm transition-all duration-150 cursor-pointer"
+            style={
+              activeCollection === null
+                ? {
+                    background: 'linear-gradient(135deg, #8B6914, #C9A227 40%, #EDD56A 55%, #C9A227 70%, #8B6914)',
+                    color: '#0A0A0B',
+                    border: '1px solid transparent',
+                    letterSpacing: '0.06em',
+                  }
+                : {
+                    background: 'transparent',
+                    color: 'rgba(237,235,230,0.45)',
+                    border: '1px solid rgba(201,162,39,0.2)',
+                    letterSpacing: '0.06em',
+                  }
+            }
           >
-            All
+            ALL
           </button>
-          {sections.map((s) => (
+          {collections.map((c) => (
             <button
-              key={s.shop_section_id}
-              onClick={() => setActiveSection(s.shop_section_id)}
-              className={`font-body text-sm px-4 py-1.5 rounded-full border transition-colors cursor-pointer ${
-                activeSection === s.shop_section_id
-                  ? 'bg-navy text-white border-navy'
-                  : 'border-white/25 text-white/50 hover:border-white/25 hover:text-patriot-red'
-              }`}
+              key={c.id}
+              onClick={() => setActiveCollection(c.id)}
+              className="font-body font-semibold text-xs px-4 py-2 rounded-sm transition-all duration-150 cursor-pointer"
+              style={
+                activeCollection === c.id
+                  ? {
+                      background: 'linear-gradient(135deg, #8B6914, #C9A227 40%, #EDD56A 55%, #C9A227 70%, #8B6914)',
+                      color: '#0A0A0B',
+                      border: '1px solid transparent',
+                      letterSpacing: '0.06em',
+                    }
+                  : {
+                      background: 'transparent',
+                      color: 'rgba(237,235,230,0.45)',
+                      border: '1px solid rgba(201,162,39,0.2)',
+                      letterSpacing: '0.06em',
+                    }
+              }
             >
-              {s.title}
+              {c.title.toUpperCase()}
             </button>
           ))}
         </div>
       )}
 
       {filtered.length === 0 ? (
-        <p className="font-body text-white/40 text-center py-16">No products found.</p>
+        <p className="font-body text-white/30 text-center py-20">No products found.</p>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {filtered.map((listing) => (
-            <ProductCard key={listing.listing_id} listing={listing} />
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+          {filtered.map((product) => (
+            <ProductCard key={product.id} product={product} />
           ))}
         </div>
       )}

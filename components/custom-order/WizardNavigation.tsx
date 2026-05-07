@@ -18,11 +18,17 @@ export default function WizardNavigation({
   isSubmitting = false,
 }: Props) {
   return (
-    <div className="flex items-center justify-between mt-8 pt-6 border-t border-white/10">
+    <div
+      className="flex items-center justify-between mt-8 pt-6"
+      style={{ borderTop: '1px solid rgba(237,235,230,0.08)' }}
+    >
       {step > 1 ? (
         <button
           onClick={onBack}
-          className="font-body text-sm font-medium text-white/40 hover:text-white transition-colors cursor-pointer"
+          className="font-body text-sm font-semibold transition-colors duration-150 cursor-pointer"
+          style={{ color: 'rgba(237,235,230,0.35)', letterSpacing: '0.04em' }}
+          onMouseEnter={(e) => (e.currentTarget.style.color = '#EDEBE6')}
+          onMouseLeave={(e) => (e.currentTarget.style.color = 'rgba(237,235,230,0.35)')}
         >
           ← Back
         </button>
@@ -34,7 +40,7 @@ export default function WizardNavigation({
         <button
           onClick={onSubmit}
           disabled={!canAdvance || isSubmitting}
-          className="bg-patriot-red hover:bg-patriot-red-dark disabled:opacity-50 disabled:cursor-not-allowed text-white font-body font-semibold px-6 py-2.5 rounded-md transition-colors cursor-pointer"
+          className="btn-gold disabled:opacity-40 disabled:cursor-not-allowed"
         >
           {isSubmitting ? 'Sending…' : 'Submit Request'}
         </button>
@@ -42,7 +48,7 @@ export default function WizardNavigation({
         <button
           onClick={onNext}
           disabled={!canAdvance}
-          className="bg-patriot-red hover:bg-patriot-red-dark disabled:opacity-40 disabled:cursor-not-allowed text-white font-body font-semibold px-6 py-2.5 rounded-md transition-colors cursor-pointer"
+          className="btn-gold disabled:opacity-40 disabled:cursor-not-allowed"
         >
           Next →
         </button>

@@ -8,6 +8,11 @@ interface Props {
   update: (partial: Partial<WizardState>) => void;
 }
 
+const inputCls =
+  'w-full rounded-lg px-4 py-2.5 font-body text-sm text-brand-text bg-white/5 outline-none transition-all duration-150';
+const inputStyle = { border: '1px solid rgba(237,235,230,0.12)' };
+const inputFocusStyle = { border: '1px solid rgba(201,162,39,0.6)', boxShadow: '0 0 0 2px rgba(201,162,39,0.12)' };
+
 export default function Step3Reference({ state, update }: Props) {
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -19,16 +24,23 @@ export default function Step3Reference({ state, update }: Props) {
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="font-heading font-bold text-white text-2xl mb-1">
+        <div className="section-rule" />
+        <h2
+          className="font-heading font-black text-brand-text mt-2 mb-1"
+          style={{ fontSize: 'clamp(20px, 3vw, 26px)', letterSpacing: '-0.01em' }}
+        >
           Reference &amp; Notes
         </h2>
-        <p className="font-body text-white/50 text-sm">
+        <p className="font-body text-white/45 text-sm">
           Optional — upload a logo, photo, or design idea. Add any extra details below.
         </p>
       </div>
 
+      {/* File drop zone */}
       <div>
-        <p className="font-body font-semibold text-white text-sm mb-2">Reference Image (optional)</p>
+        <p className="font-body font-semibold text-brand-text text-sm mb-2">
+          Reference Image <span className="font-normal text-white/35">(optional)</span>
+        </p>
         <div
           onClick={() => inputRef.current?.click()}
           onDragOver={(e) => e.preventDefault()}
@@ -36,11 +48,23 @@ export default function Step3Reference({ state, update }: Props) {
             e.preventDefault();
             handleFile(e.dataTransfer.files[0]);
           }}
-          className="border-2 border-dashed border-white/15 rounded-xl p-8 text-center cursor-pointer hover:border-white/25 transition-colors"
+          className="rounded-lg p-8 text-center cursor-pointer transition-all duration-150"
+          style={{
+            border: '2px dashed rgba(201,162,39,0.2)',
+            background: 'rgba(201,162,39,0.03)',
+          }}
+          onMouseEnter={(e) => {
+            (e.currentTarget as HTMLElement).style.borderColor = 'rgba(201,162,39,0.4)';
+            (e.currentTarget as HTMLElement).style.background = 'rgba(201,162,39,0.06)';
+          }}
+          onMouseLeave={(e) => {
+            (e.currentTarget as HTMLElement).style.borderColor = 'rgba(201,162,39,0.2)';
+            (e.currentTarget as HTMLElement).style.background = 'rgba(201,162,39,0.03)';
+          }}
         >
           {state.referenceImage ? (
             <div className="flex items-center justify-center gap-3">
-              <span className="font-body text-sm text-white font-medium">
+              <span className="font-body text-sm text-brand-text font-medium">
                 {state.referenceImage.name}
               </span>
               <button
@@ -48,7 +72,10 @@ export default function Step3Reference({ state, update }: Props) {
                   e.stopPropagation();
                   update({ referenceImage: null });
                 }}
-                className="text-patriot-red hover:text-patriot-red-dark cursor-pointer"
+                className="cursor-pointer transition-colors duration-150"
+                style={{ color: '#C9A227' }}
+                onMouseEnter={(e) => (e.currentTarget.style.color = '#EDD56A')}
+                onMouseLeave={(e) => (e.currentTarget.style.color = '#C9A227')}
                 aria-label="Remove file"
               >
                 <X size={16} />
@@ -56,11 +83,19 @@ export default function Step3Reference({ state, update }: Props) {
             </div>
           ) : (
             <div>
-              <Upload className="mx-auto text-white/30 mb-2" size={28} aria-hidden="true" />
-              <p className="font-body text-sm text-white/50">
-                Drag &amp; drop or <span className="text-steel underline">browse</span>
+              <Upload
+                className="mx-auto mb-2"
+                size={26}
+                style={{ color: 'rgba(201,162,39,0.4)' }}
+                aria-hidden="true"
+              />
+              <p className="font-body text-sm text-white/45">
+                Drag &amp; drop or{' '}
+                <span style={{ color: '#C9A227', textDecoration: 'underline' }}>browse</span>
               </p>
-              <p className="font-body text-xs text-white/30 mt-1">JPG, PNG, SVG, PDF up to 10MB</p>
+              <p className="font-body text-xs text-white/25 mt-1">
+                JPG, PNG, SVG, PDF up to 10MB
+              </p>
             </div>
           )}
         </div>
@@ -73,8 +108,9 @@ export default function Step3Reference({ state, update }: Props) {
         />
       </div>
 
+      {/* Notes */}
       <div>
-        <label htmlFor="notes" className="font-body font-semibold text-white text-sm block mb-1.5">
+        <label htmlFor="notes" className="font-body font-semibold text-brand-text text-sm block mb-1.5">
           Additional Notes
         </label>
         <textarea
@@ -83,7 +119,10 @@ export default function Step3Reference({ state, update }: Props) {
           value={state.notes}
           onChange={(e) => update({ notes: e.target.value })}
           placeholder="Any other details, font preferences, inspiration, deadline…"
-          className="w-full border border-white/15 rounded-lg px-4 py-2.5 font-body text-sm text-white bg-white/5 focus:outline-none focus:border-patriot-red focus:ring-1 focus:ring-patriot-red resize-none"
+          className={inputCls + ' resize-none'}
+          style={inputStyle}
+          onFocus={(e) => Object.assign(e.currentTarget.style, inputFocusStyle)}
+          onBlur={(e) => Object.assign(e.currentTarget.style, inputStyle)}
         />
       </div>
     </div>

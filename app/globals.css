@@ -1,21 +1,218 @@
-@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,300;0,6..12,400;0,6..12,500;0,6..12,600;0,6..12,700;1,6..12,400&family=Rubik:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,300;0,6..12,400;0,6..12,500;0,6..12,600;0,6..12,700;1,6..12,400&family=Rubik:wght@300;400;500;600;700;800;900&display=swap');
 @import "tailwindcss";
 
 @theme {
-  --color-navy: #1A1A1A;
-  --color-navy-light: #262626;
-  --color-navy-dark: #0A0A0A;
-  --color-patriot-red: #C18813;
-  --color-patriot-red-dark: #A3720F;
-  --color-steel: #D4A83A;
-  --color-brand-bg: #0A0A0A;
-  --color-brand-text: #F2F2F2;
+  --color-navy: #0A0A0B;
+  --color-navy-light: #111214;
+  --color-navy-dark: #07070A;
+  --color-surface: #181A1C;
+
+  /* Gold system — replaces flat patriot-red */
+  --color-gold: #C9A227;
+  --color-gold-light: #EDD56A;
+  --color-gold-dark: #7A5C10;
+  --color-gold-muted: rgba(201, 162, 39, 0.12);
+
+  /* Keep patriot-red alias pointing to gold for backward compat */
+  --color-patriot-red: #C9A227;
+  --color-patriot-red-dark: #A8871F;
+
+  --color-steel: #EDD56A;
+
+  --color-brand-bg: #0A0A0B;
+  --color-brand-text: #EDEBE6;
+
   --font-heading: 'Rubik', sans-serif;
   --font-body: 'Nunito Sans', sans-serif;
 }
 
+/* ── Shorthand aliases so var(--gold) works in custom CSS classes ─────────── */
+:root {
+  --gold:       #C9A227;
+  --gold-light: #EDD56A;
+  --gold-dark:  #7A5C10;
+  --gold-muted: rgba(201, 162, 39, 0.12);
+  --bg:         #0A0A0B;
+  --surface:    #111214;
+  --text:       #EDEBE6;
+  --text-muted: rgba(237, 235, 230, 0.45);
+  --text-dim:   rgba(237, 235, 230, 0.25);
+  --border:     rgba(201, 162, 39, 0.18);
+}
+
 body {
   font-family: 'Nunito Sans', sans-serif;
-  background-color: #0A0A0A;
-  color: #F2F2F2;
+  background-color: #0A0A0B;
+  color: #EDEBE6;
+  -webkit-font-smoothing: antialiased;
 }
+
+/* ── Metallic gold text ─────────────────────────────────────────────────────── */
+.gold-text {
+  background: linear-gradient(135deg, #7A5C10 0%, #C9A227 30%, #EDD56A 50%, #C9A227 70%, #7A5C10 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gold-shimmer {
+  background: linear-gradient(90deg, #7A5C10 0%, #C9A227 25%, #EDD56A 50%, #C9A227 75%, #7A5C10 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: gold-shimmer 4s linear infinite;
+}
+
+@keyframes gold-shimmer {
+  0%   { background-position: 200% center; }
+  100% { background-position: -200% center; }
+}
+
+/* ── Tactical section label ─────────────────────────────────────────────────── */
+.tac-label {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #C9A227;
+}
+
+/* ── Section rule ───────────────────────────────────────────────────────────── */
+.section-rule {
+  width: 40px;
+  height: 2px;
+  background: linear-gradient(90deg, #C9A227, transparent);
+  margin-bottom: 10px;
+}
+
+/* ── Corner bracket decoration ──────────────────────────────────────────────── */
+.bracket-box {
+  position: relative;
+}
+.bracket-box::before,
+.bracket-box::after {
+  content: '';
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  border-color: rgba(201, 162, 39, 0.5);
+  border-style: solid;
+}
+.bracket-box::before {
+  top: -4px;
+  left: -4px;
+  border-width: 2px 0 0 2px;
+}
+.bracket-box::after {
+  bottom: -4px;
+  right: -4px;
+  border-width: 0 2px 2px 0;
+}
+
+/* ── Nav link underline ─────────────────────────────────────────────────────── */
+.nav-link {
+  position: relative;
+  color: rgba(237, 235, 230, 0.65);
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 13px;
+  text-decoration: none;
+  letter-spacing: 0.04em;
+  transition: color 0.15s;
+}
+.nav-link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -2px;
+  height: 1px;
+  background: #C9A227;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.2s ease;
+}
+.nav-link:hover {
+  color: #EDEBE6;
+}
+.nav-link:hover::after {
+  transform: scaleX(1);
+}
+
+/* ── Gold CTA button ────────────────────────────────────────────────────────── */
+.btn-gold {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  color: #0A0A0B;
+  text-decoration: none;
+  background: linear-gradient(135deg, #8B6914, #C9A227 40%, #EDD56A 55%, #C9A227 70%, #8B6914);
+  box-shadow: 0 2px 20px rgba(201, 162, 39, 0.3);
+  padding: 12px 24px;
+  border-radius: 3px;
+  border: none;
+  cursor: pointer;
+  transition: box-shadow 0.15s, opacity 0.15s;
+}
+.btn-gold:hover {
+  box-shadow: 0 4px 28px rgba(201, 162, 39, 0.45);
+  opacity: 0.95;
+}
+
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  color: #EDEBE6;
+  text-decoration: none;
+  background: transparent;
+  border: 1px solid rgba(201, 162, 39, 0.4);
+  padding: 12px 24px;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s;
+}
+.btn-outline:hover {
+  border-color: #C9A227;
+  color: #EDD56A;
+}
+
+/* ── Product card hover ─────────────────────────────────────────────────────── */
+.product-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+.product-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 40px rgba(201, 162, 39, 0.12);
+  border-color: rgba(201, 162, 39, 0.45) !important;
+}
+
+/* ── Gallery hover ──────────────────────────────────────────────────────────── */
+.gallery-img-wrap .gallery-overlay {
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+.gallery-img-wrap:hover .gallery-overlay {
+  opacity: 1;
+}
+.gallery-img-wrap img {
+  transition: transform 0.35s ease;
+}
+.gallery-img-wrap:hover img {
+  transform: scale(1.06);
+}
+
+/* ── Scrollbar ──────────────────────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #0A0A0B; }
+::-webkit-scrollbar-thumb { background: #7A5C10; border-radius: 3px; }

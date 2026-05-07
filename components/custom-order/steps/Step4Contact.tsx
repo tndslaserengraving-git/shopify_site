@@ -7,21 +7,31 @@ interface Props {
   submitError: string;
 }
 
+const inputCls =
+  'w-full rounded-lg px-4 py-2.5 font-body text-sm text-brand-text bg-white/5 outline-none transition-all duration-150';
+const inputStyle = { border: '1px solid rgba(237,235,230,0.12)' };
+const inputFocusStyle = { border: '1px solid rgba(201,162,39,0.6)', boxShadow: '0 0 0 2px rgba(201,162,39,0.12)' };
+
 export default function Step4Contact({ state, update, submitError }: Props) {
   return (
     <div className="space-y-5">
       <div>
-        <h2 className="font-heading font-bold text-white text-2xl mb-1">
+        <div className="section-rule" />
+        <h2
+          className="font-heading font-black text-brand-text mt-2 mb-1"
+          style={{ fontSize: 'clamp(20px, 3vw, 26px)', letterSpacing: '-0.01em' }}
+        >
           How can we reach you?
         </h2>
-        <p className="font-body text-white/50 text-sm">
+        <p className="font-body text-white/45 text-sm">
           We'll follow up within 24–48 hours.
         </p>
       </div>
 
+      {/* Name */}
       <div>
-        <label htmlFor="name" className="font-body font-semibold text-white text-sm block mb-1.5">
-          Full Name <span className="text-patriot-red">*</span>
+        <label htmlFor="name" className="font-body font-semibold text-brand-text text-sm block mb-1.5">
+          Full Name <span style={{ color: '#C9A227' }}>*</span>
         </label>
         <input
           id="name"
@@ -29,13 +39,17 @@ export default function Step4Contact({ state, update, submitError }: Props) {
           autoComplete="name"
           value={state.name}
           onChange={(e) => update({ name: e.target.value })}
-          className="w-full border border-white/15 rounded-lg px-4 py-2.5 font-body text-sm bg-white/5 text-white focus:outline-none focus:border-patriot-red focus:ring-1 focus:ring-patriot-red"
+          className={inputCls}
+          style={inputStyle}
+          onFocus={(e) => Object.assign(e.currentTarget.style, inputFocusStyle)}
+          onBlur={(e) => Object.assign(e.currentTarget.style, inputStyle)}
         />
       </div>
 
+      {/* Email */}
       <div>
-        <label htmlFor="email" className="font-body font-semibold text-white text-sm block mb-1.5">
-          Email <span className="text-patriot-red">*</span>
+        <label htmlFor="email" className="font-body font-semibold text-brand-text text-sm block mb-1.5">
+          Email <span style={{ color: '#C9A227' }}>*</span>
         </label>
         <input
           id="email"
@@ -43,13 +57,17 @@ export default function Step4Contact({ state, update, submitError }: Props) {
           autoComplete="email"
           value={state.email}
           onChange={(e) => update({ email: e.target.value })}
-          className="w-full border border-white/15 rounded-lg px-4 py-2.5 font-body text-sm bg-white/5 text-white focus:outline-none focus:border-patriot-red focus:ring-1 focus:ring-patriot-red"
+          className={inputCls}
+          style={inputStyle}
+          onFocus={(e) => Object.assign(e.currentTarget.style, inputFocusStyle)}
+          onBlur={(e) => Object.assign(e.currentTarget.style, inputStyle)}
         />
       </div>
 
+      {/* Phone */}
       <div>
-        <label htmlFor="phone" className="font-body font-semibold text-white text-sm block mb-1.5">
-          Phone <span className="font-normal text-white/40">(optional)</span>
+        <label htmlFor="phone" className="font-body font-semibold text-brand-text text-sm block mb-1.5">
+          Phone <span className="font-normal text-white/35">(optional)</span>
         </label>
         <input
           id="phone"
@@ -57,22 +75,29 @@ export default function Step4Contact({ state, update, submitError }: Props) {
           autoComplete="tel"
           value={state.phone}
           onChange={(e) => update({ phone: e.target.value })}
-          className="w-full border border-white/15 rounded-lg px-4 py-2.5 font-body text-sm bg-white/5 text-white focus:outline-none focus:border-patriot-red focus:ring-1 focus:ring-patriot-red"
+          className={inputCls}
+          style={inputStyle}
+          onFocus={(e) => Object.assign(e.currentTarget.style, inputFocusStyle)}
+          onBlur={(e) => Object.assign(e.currentTarget.style, inputStyle)}
         />
       </div>
 
+      {/* Contact method */}
       <div>
-        <p className="font-body font-semibold text-white text-sm mb-2">Preferred Contact Method</p>
+        <p className="font-body font-semibold text-brand-text text-sm mb-2">
+          Preferred Contact Method
+        </p>
         <div className="flex gap-3">
           {(['email', 'phone'] as ContactMethod[]).map((method) => (
             <button
               key={method}
               onClick={() => update({ contactMethod: method })}
-              className={`px-4 py-2 rounded-lg border-2 font-body text-sm font-medium transition-all cursor-pointer capitalize ${
+              className="px-5 py-2 rounded-lg font-body text-sm font-semibold capitalize transition-all duration-150 cursor-pointer"
+              style={
                 state.contactMethod === method
-                  ? 'border-patriot-red bg-patriot-red/5 text-white'
-                  : 'border-white/10 text-white/50 hover:border-white/25'
-              }`}
+                  ? { border: '2px solid #C9A227', background: 'rgba(201,162,39,0.07)', color: '#EDEBE6' }
+                  : { border: '2px solid rgba(237,235,230,0.08)', background: 'transparent', color: 'rgba(237,235,230,0.4)' }
+              }
             >
               {method}
             </button>
@@ -80,10 +105,19 @@ export default function Step4Contact({ state, update, submitError }: Props) {
         </div>
       </div>
 
+      {/* Submit error */}
       {submitError && (
-        <div role="alert" className="p-3 rounded-lg bg-patriot-red/10 border border-patriot-red/20">
-          <p className="font-body text-sm text-patriot-red">{submitError}</p>
-          <a href="mailto:topnotchdesignstudio@email.com" className="font-body text-xs text-steel underline mt-1 block">
+        <div
+          role="alert"
+          className="p-4 rounded-lg"
+          style={{ background: 'rgba(201,162,39,0.07)', border: '1px solid rgba(201,162,39,0.25)' }}
+        >
+          <p className="font-body text-sm" style={{ color: '#EDD56A' }}>{submitError}</p>
+          <a
+            href="mailto:topnotchdesignstudio@email.com"
+            className="font-body text-xs underline mt-1 block transition-colors"
+            style={{ color: '#C9A227' }}
+          >
             Or email us directly
           </a>
         </div>

@@ -6,11 +6,20 @@ interface Props {
 }
 
 export default function VeteranBadge({ className = '', size = 'md' }: Props) {
-  const textSize = size === 'sm' ? 'text-xs' : 'text-sm';
-  const iconSize = size === 'sm' ? 14 : 16;
+  const textSize = size === 'sm' ? 9 : 11;
+  const iconSize = size === 'sm' ? 12 : 14;
+
   return (
-    <span className={`inline-flex items-center gap-1.5 font-body font-semibold text-white/90 ${textSize} ${className}`}>
-      <Shield size={iconSize} className="text-patriot-red" aria-hidden="true" />
+    <span
+      className={`inline-flex items-center gap-1.5 font-body font-bold ${className}`}
+      style={{
+        fontSize: textSize,
+        letterSpacing: '0.18em',
+        textTransform: 'uppercase',
+        color: '#C9A227',
+      }}
+    >
+      <Shield size={iconSize} style={{ color: '#C9A227' }} aria-hidden="true" />
       Veteran-Owned &amp; Operated
     </span>
   );

@@ -8,6 +8,7 @@ import Step3Reference from './steps/Step3Reference';
 import Step4Contact from './steps/Step4Contact';
 import WizardNavigation from './WizardNavigation';
 import Link from 'next/link';
+import { Check } from 'lucide-react';
 
 const STEP_LABELS = ['Product Type', 'Details', 'Reference', 'Contact'];
 
@@ -69,13 +70,32 @@ export default function OrderWizard() {
 
   if (submitted) {
     return (
-      <div className="text-center py-16 max-w-md mx-auto">
-        <div className="text-4xl mb-4" aria-hidden="true">✅</div>
-        <h2 className="font-heading font-bold text-white text-3xl mb-3">Request Received!</h2>
-        <p className="font-body text-white/50 text-base mb-6">
+      <div className="text-center py-20 max-w-md mx-auto">
+        <div
+          className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6"
+          style={{
+            background: 'rgba(201,162,39,0.1)',
+            border: '1px solid rgba(201,162,39,0.3)',
+            color: '#C9A227',
+          }}
+        >
+          <Check size={28} aria-hidden="true" />
+        </div>
+        <div className="section-rule mx-auto mb-3" />
+        <h2
+          className="font-heading font-black text-brand-text mb-3"
+          style={{ fontSize: 'clamp(24px, 4vw, 32px)', letterSpacing: '-0.02em' }}
+        >
+          Request Received!
+        </h2>
+        <p className="font-body text-white/45 text-base mb-8">
           We'll be in touch within 24–48 hours.
         </p>
-        <Link href="/shop" className="font-body text-steel hover:text-patriot-red underline text-sm">
+        <Link
+          href="/shop"
+          className="font-body font-semibold text-sm transition-colors duration-150"
+          style={{ color: '#C9A227', textDecoration: 'underline' }}
+        >
           Browse the shop while you wait →
         </Link>
       </div>
@@ -85,20 +105,28 @@ export default function OrderWizard() {
   const progress = ((state.step - 1) / 3) * 100;
 
   return (
-    <div className="max-w-2xl mx-auto px-4 py-12">
-      <div className="mb-8">
-        <div className="flex justify-between mb-2">
+    <div className="max-w-2xl mx-auto px-4 py-14">
+      {/* Progress bar */}
+      <div className="mb-10">
+        <div className="flex justify-between mb-3">
           {STEP_LABELS.map((label, i) => (
             <span
               key={label}
-              className={`font-body text-xs font-medium ${i + 1 <= state.step ? 'text-patriot-red' : 'text-brand-text/30'}`}
+              className="font-body font-bold"
+              style={{
+                fontSize: 10,
+                letterSpacing: '0.14em',
+                textTransform: 'uppercase',
+                color: i + 1 <= state.step ? '#C9A227' : 'rgba(237,235,230,0.2)',
+              }}
             >
               {label}
             </span>
           ))}
         </div>
         <div
-          className="h-1.5 bg-white/10 rounded-full"
+          className="h-1 rounded-full overflow-hidden"
+          style={{ background: 'rgba(237,235,230,0.08)' }}
           role="progressbar"
           aria-valuenow={state.step}
           aria-valuemin={1}
@@ -106,8 +134,11 @@ export default function OrderWizard() {
           aria-label={`Step ${state.step} of 4`}
         >
           <div
-            className="h-full bg-patriot-red rounded-full transition-all duration-300"
-            style={{ width: `${progress}%` }}
+            className="h-full rounded-full transition-all duration-400"
+            style={{
+              width: `${progress}%`,
+              background: 'linear-gradient(90deg, #7A5C10, #C9A227 50%, #EDD56A)',
+            }}
           />
         </div>
       </div>

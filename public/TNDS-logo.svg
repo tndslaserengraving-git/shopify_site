@@ -1,0 +1,80 @@
+<svg width="500" height="500" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    
+
+    
+    <linearGradient id="gold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3D2406"></stop>
+      <stop offset="18%" stop-color="#9A7318"></stop>
+      <stop offset="35%" stop-color="#C9A227"></stop>
+      <stop offset="50%" stop-color="#F0D878"></stop>
+      <stop offset="65%" stop-color="#C9A227"></stop>
+      <stop offset="82%" stop-color="#9A7318"></stop>
+      <stop offset="100%" stop-color="#3D2406"></stop>
+    </linearGradient>
+
+    
+    <linearGradient id="shimmer" gradientUnits="userSpaceOnUse" x1="-600" y1="0" x2="-200" y2="500">
+      <stop offset="0%" stop-color="#FFF8DC" stop-opacity="0"></stop>
+      <stop offset="42%" stop-color="#FFF8DC" stop-opacity="0"></stop>
+      <stop offset="50%" stop-color="#FFF8DC" stop-opacity="0.6"></stop>
+      <stop offset="58%" stop-color="#FFF8DC" stop-opacity="0"></stop>
+      <stop offset="100%" stop-color="#FFF8DC" stop-opacity="0"></stop>
+      
+    </linearGradient>
+
+    
+    <mask id="logoMask">
+      <rect x="10" y="10" width="480" height="480" fill="none" stroke="white" stroke-width="3.5" rx="2"></rect>
+      <rect x="17" y="17" width="466" height="466" fill="none" stroke="white" stroke-width="1" opacity="0.5" rx="1"></rect>
+      <text x="192" y="90" text-anchor="middle" font-family="&#39;Abril Fatface&#39;, serif" font-size="62" fill="white">Top Notch</text>
+      <rect x="384" y="100" width="52" height="14" rx="1" fill="white"></rect>
+      <polygon points="384,114 436,114 420,208 400,208" fill="white"></polygon>
+      <polygon points="400,208 420,208 410,224" fill="white"></polygon>
+      <text x="34" y="218" text-anchor="start" font-family="&#39;Anton&#39;, sans-serif" font-size="124" fill="white">TNDS</text>
+      <rect x="34" y="230" width="440" height="2.5" fill="white"></rect>
+      <polygon points="410,216 412,224 420,220 416,228 425,230 416,232 420,240 412,236 410,244 408,236 400,240 404,232 395,230 404,228 400,220 408,224" fill="white"></polygon>
+      <text x="250" y="267" text-anchor="middle" font-family="&#39;Oswald&#39;, sans-serif" font-weight="700" font-size="21" letter-spacing="3" fill="white">LASER ENGRAVING</text>
+      <text x="250" y="293" text-anchor="middle" font-family="&#39;Oswald&#39;, sans-serif" font-weight="700" font-size="21" letter-spacing="3" fill="white">AND CRAFTS</text>
+      <text x="250" y="400" text-anchor="middle" font-family="&#39;Playfair Display&#39;, serif" font-weight="800" font-style="italic" font-size="68" fill="white">Design Studio</text>
+    </mask>
+  </defs>
+
+  
+  <rect width="500" height="500" fill="#0A0A0B" rx="4"></rect>
+
+  
+  <rect x="10" y="10" width="480" height="480" fill="none" stroke="url(#gold)" stroke-width="3.5" rx="2"></rect>
+  <rect x="17" y="17" width="466" height="466" fill="none" stroke="url(#gold)" stroke-width="1" opacity="0.45" rx="1"></rect>
+
+  
+  <text x="192" y="90" text-anchor="middle" font-family="&#39;Abril Fatface&#39;, serif" font-size="62" fill="url(#gold)">Top Notch</text>
+
+  
+  <rect x="384" y="100" width="52" height="14" rx="1" fill="url(#gold)"></rect>
+  
+  <polygon points="384,114 436,114 420,208 400,208" fill="url(#gold)"></polygon>
+  
+  <polygon points="400,208 420,208 410,224" fill="url(#gold)"></polygon>
+
+  
+  <text x="34" y="218" text-anchor="start" font-family="&#39;Anton&#39;, sans-serif" font-size="124" fill="url(#gold)">TNDS</text>
+
+  
+  <rect x="34" y="230" width="440" height="2.5" fill="url(#gold)"></rect>
+
+  
+  <polygon points="410,216 412,224 420,220 416,228 425,230 416,232 420,240 412,236 410,244 408,236 400,240 404,232 395,230 404,228 400,220 408,224" fill="url(#gold)"></polygon>
+
+  
+  <text x="250" y="267" text-anchor="middle" font-family="&#39;Oswald&#39;, sans-serif" font-weight="700" font-size="21" letter-spacing="3" fill="url(#gold)">LASER ENGRAVING</text>
+
+  
+  <text x="250" y="293" text-anchor="middle" font-family="&#39;Oswald&#39;, sans-serif" font-weight="700" font-size="21" letter-spacing="3" fill="url(#gold)">AND CRAFTS</text>
+
+  
+  <text x="250" y="400" text-anchor="middle" font-family="&#39;Playfair Display&#39;, serif" font-weight="800" font-style="italic" font-size="68" fill="url(#gold)">Design Studio</text>
+
+  
+  <rect width="500" height="500" fill="url(#shimmer)" mask="url(#logoMask)"></rect>
+</svg>

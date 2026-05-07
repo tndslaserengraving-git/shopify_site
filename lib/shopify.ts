@@ -93,7 +93,7 @@ function normalizeProduct(
     id: raw.id,
     title: raw.title,
     handle: raw.handle,
-    url: raw.onlineStoreUrl ?? `https://${process.env.SHOPIFY_STORE_DOMAIN}/products/${raw.handle}`,
+    url: `/shop/${raw.handle}`,
     priceRange: raw.priceRange,
     featuredImage: raw.featuredImage,
     collections: raw.collections.edges.map((e) => e.node),
@@ -103,6 +103,57 @@ function normalizeProduct(
 export async function getProducts(): Promise<ShopifyProduct[]> {
   const data = await shopifyFetch<ShopifyProductsResponse>(PRODUCTS_QUERY, { first: 100 });
   return data.products.edges.map((e) => normalizeProduct(e.node));
+}
+
+const PRODUCT_QUERY = `
+  query GetProduct($handle: String!) {
+    product(handle: $handle) {
+      id
+      title
+      handle
+      descriptionHtml
+      priceRange {
+        minVariantPrice {
+          amount
+          currencyCode
+        }
+      }
+      featuredImage {
+        url
+        altText
+      }
+      images(first: 10) {
+        edges {
+          node {
+            url
+            altText
+          }
+        }
+      }
+    }
+  }
+`;
+
+export interface ShopifyProductDetail {
+  id: string;
+  title: string;
+  handle: string;
+  descriptionHtml: string;
+  priceRange: { minVariantPrice: { amount: string; currencyCode: string } };
+  featuredImage: { url: string; altText: string | null } | null;
+  images: { url: string; altText: string | null }[];
+}
+
+export async function getProduct(handle: string): Promise<ShopifyProductDetail | null> {
+  const data = await shopifyFetch<{ product: ShopifyProductDetail & { images: { edges: { node: { url: string; altText: string | null } }[] } } | null }>(
+    PRODUCT_QUERY,
+    { handle },
+  );
+  if (!data.product) return null;
+  return {
+    ...data.product,
+    images: data.product.images.edges.map((e) => e.node),
+  };
 }
 
 export async function getCollections(): Promise<ShopifyCollection[]> {

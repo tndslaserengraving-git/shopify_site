@@ -121,11 +121,9 @@ export default async function Hero() {
           {/* ── Right: Product grid ── */}
           <div className="hidden lg:grid grid-cols-2 gap-3">
             {tiles.map((tile) => (
-              <a
+              <Link
                 key={tile.tag}
                 href={tile.url}
-                target={tile.image ? '_blank' : undefined}
-                rel={tile.image ? 'noopener noreferrer' : undefined}
                 className="bracket-box relative overflow-hidden flex flex-col justify-end no-underline"
                 style={{
                   aspectRatio: '1',
@@ -176,7 +174,7 @@ export default async function Hero() {
                     {tile.tag}
                   </span>
                 </div>
-              </a>
+              </Link>
             ))}
           </div>
         </div>

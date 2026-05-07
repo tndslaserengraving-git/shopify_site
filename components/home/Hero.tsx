@@ -12,7 +12,7 @@ const STAR = (
 const PRODUCT_TILES = [
   { label: 'Cutting Board', tag: 'WOOD', keywords: ['cutting board', 'wood', 'wooden', 'walnut', 'maple', 'bamboo', 'plaque', 'sign'] },
   { label: 'Business Cards', tag: 'SLATE', keywords: ['business card', 'slate', 'stone', 'granite'] },
-  { label: 'Glass Engraving', tag: 'GLASS', keywords: ['glass', 'acrylic', 'crystal', 'tumbler', 'wine', 'cup'] },
+  { label: 'Glass Etching', tag: 'GLASS', keywords: ['glass', 'etching', 'acrylic', 'crystal', 'tumbler', 'wine', 'cup'] },
   { label: 'Metal Tags', tag: 'METAL', keywords: ['metal', 'stainless', 'steel', 'aluminum', 'brass', 'tag', 'keychain'] },
 ];
 

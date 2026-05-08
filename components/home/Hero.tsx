@@ -10,10 +10,10 @@ const STAR = (
 );
 
 const PRODUCT_TILES = [
-  { label: 'Cutting Board', tag: 'WOOD', keywords: ['cutting board', 'wood', 'wooden', 'walnut', 'maple', 'bamboo', 'plaque', 'sign'] },
-  { label: 'Business Cards', tag: 'SLATE', keywords: ['business card', 'slate', 'stone', 'granite'] },
-  { label: 'Glass Etching', tag: 'GLASS', keywords: ['glass', 'etching', 'acrylic', 'crystal', 'tumbler', 'wine', 'cup'] },
-  { label: 'Metal Tags', tag: 'METAL', keywords: ['metal', 'stainless', 'steel', 'aluminum', 'brass', 'tag', 'keychain'] },
+  { label: 'Cutting Board', tag: 'WOOD', keywords: ['cutting board', 'grill master', 'bbq board'] },
+  { label: 'Metal Engraving', tag: 'METAL', keywords: ['metal', 'stainless', 'steel', 'aluminum', 'brass', 'plate', 'tag', 'keychain'] },
+  { label: 'Glass Etching', tag: 'GLASS', keywords: ['glass etching', 'custom glass'] },
+  { label: 'Acrylic Signs', tag: 'ACRYLIC', keywords: ['acrylic', 'sign', 'plaque', 'award', 'trophy', 'slate', 'stone'] },
 ];
 
 export default async function Hero() {

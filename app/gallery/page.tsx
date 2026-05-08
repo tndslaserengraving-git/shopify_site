@@ -4,7 +4,7 @@ import GalleryGrid from '@/components/gallery/GalleryGrid';
 export const revalidate = 3600;
 
 export default async function GalleryPage() {
-  let images: { id: string; url: string; alt: string }[] = [];
+  let images: { id: string; handle: string; url: string; alt: string }[] = [];
 
   try {
     const products = await getProducts();
@@ -12,6 +12,7 @@ export default async function GalleryPage() {
       .filter((p) => p.featuredImage)
       .map((p) => ({
         id: p.id,
+        handle: p.handle,
         url: p.featuredImage!.url,
         alt: p.featuredImage!.altText ?? p.title,
       }));

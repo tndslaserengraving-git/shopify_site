@@ -1,8 +1,8 @@
-import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { getProduct, formatPrice } from '@/lib/shopify';
+import ImageViewer from '@/components/shop/ImageViewer';
 
 export const revalidate = 3600;
 
@@ -33,43 +33,7 @@ export default async function ProductPage({ params }: Props) {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
         <div>
-          {images[0] ? (
-            <div
-              className="relative aspect-square rounded-xl overflow-hidden"
-              style={{ border: '1px solid rgba(201,162,39,0.18)' }}
-            >
-              <Image
-                src={images[0].url}
-                alt={images[0].altText ?? product.title}
-                fill
-                className="object-cover"
-                priority
-              />
-            </div>
-          ) : (
-            <div className="aspect-square bg-white/5 rounded-xl flex items-center justify-center">
-              <span className="font-body text-white/30">No image</span>
-            </div>
-          )}
-
-          {images.length > 1 && (
-            <div className="flex gap-2 mt-3 overflow-x-auto pb-1">
-              {images.slice(1).map((img, i) => (
-                <div
-                  key={i}
-                  className="relative w-16 h-16 flex-shrink-0 rounded-md overflow-hidden"
-                  style={{ border: '1px solid rgba(201,162,39,0.15)' }}
-                >
-                  <Image
-                    src={img.url}
-                    alt={img.altText ?? product.title}
-                    fill
-                    className="object-cover"
-                  />
-                </div>
-              ))}
-            </div>
-          )}
+          <ImageViewer images={images} title={product.title} />
         </div>
 
         <div>

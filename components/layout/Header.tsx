@@ -1,7 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
+
 import { Menu, X } from 'lucide-react';
 
 const NAV = [
@@ -37,12 +37,11 @@ export default function Header() {
 
           {/* Logo */}
           <Link href="/" className="flex items-center no-underline">
-            <Image
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
               src="/TNDS-logo-horizontal.svg"
               alt="Top Notch Design Studio"
-              width={400}
-              height={88}
-              priority
+              style={{ height: 88, width: 'auto' }}
             />
           </Link>
 

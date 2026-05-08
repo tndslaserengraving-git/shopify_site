@@ -1,9 +1,9 @@
 export default function StatsBar() {
   const stats = [
-    { value: '500+', label: 'Orders Completed' },
+    { value: '100%', label: 'Made to Order' },
     { value: '6', label: 'Materials Available' },
     { value: '24h', label: 'Avg. Response Time' },
-    { value: '100%', label: 'Satisfaction Rate' },
+    { value: '20+', label: 'Years of Military Service' },
   ];
 
   return (

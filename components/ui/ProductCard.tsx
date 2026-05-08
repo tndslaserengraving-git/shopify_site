@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { ExternalLink } from 'lucide-react';
+import Link from 'next/link';
 import type { ShopifyProduct } from '@/types/shopify';
 import { formatPrice } from '@/lib/shopify';
 
@@ -31,8 +31,9 @@ export default function ProductCard({ product }: Props) {
   const image = product.featuredImage;
 
   return (
-    <div
-      className="product-card rounded-lg overflow-hidden flex flex-col"
+    <Link
+      href={`/shop/${product.handle}`}
+      className="product-card rounded-lg overflow-hidden flex flex-col no-underline cursor-pointer"
       style={{
         background: 'rgba(255,255,255,0.03)',
         border: '1px solid rgba(201,162,39,0.18)',
@@ -89,17 +90,14 @@ export default function ProductCard({ product }: Props) {
           <span className="font-heading font-bold text-brand-text" style={{ fontSize: 16 }}>
             {price}
           </span>
-          <a
-            href={product.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="font-body font-bold text-gold hover:text-gold-light transition-colors flex items-center gap-1 no-underline"
+          <span
+            className="font-body font-bold text-gold"
             style={{ fontSize: 11, letterSpacing: '0.06em', textTransform: 'uppercase' }}
           >
-            Shop <ExternalLink size={11} aria-hidden="true" />
-          </a>
+            View →
+          </span>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }

@@ -7,11 +7,11 @@ import { getProduct, formatPrice } from '@/lib/shopify';
 export const revalidate = 3600;
 
 interface Props {
-  params: Promise<{ handle: string }>;
+  params: { handle: string };
 }
 
 export default async function ProductPage({ params }: Props) {
-  const { handle } = await params;
+  const { handle } = params;
   const product = await getProduct(handle).catch(() => null);
   if (!product) notFound();
 

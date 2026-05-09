@@ -130,9 +130,29 @@ const PRODUCT_QUERY = `
           }
         }
       }
+      variants(first: 20) {
+        edges {
+          node {
+            id
+            title
+            availableForSale
+            price {
+              amount
+              currencyCode
+            }
+          }
+        }
+      }
     }
   }
 `;
+
+export interface ShopifyVariant {
+  id: string;
+  title: string;
+  availableForSale: boolean;
+  price: { amount: string; currencyCode: string };
+}
 
 export interface ShopifyProductDetail {
   id: string;
@@ -142,18 +162,46 @@ export interface ShopifyProductDetail {
   priceRange: { minVariantPrice: { amount: string; currencyCode: string } };
   featuredImage: { url: string; altText: string | null } | null;
   images: { url: string; altText: string | null }[];
+  variants: ShopifyVariant[];
 }
 
+type RawProductDetail = Omit<ShopifyProductDetail, 'images' | 'variants'> & {
+  images: { edges: { node: { url: string; altText: string | null } }[] };
+  variants: { edges: { node: ShopifyVariant }[] };
+};
+
 export async function getProduct(handle: string): Promise<ShopifyProductDetail | null> {
-  const data = await shopifyFetch<{ product: ShopifyProductDetail & { images: { edges: { node: { url: string; altText: string | null } }[] } } | null }>(
-    PRODUCT_QUERY,
-    { handle },
-  );
+  const data = await shopifyFetch<{ product: RawProductDetail | null }>(PRODUCT_QUERY, { handle });
   if (!data.product) return null;
   return {
     ...data.product,
     images: data.product.images.edges.map((e) => e.node),
+    variants: data.product.variants.edges.map((e) => e.node),
   };
+}
+
+const CART_CREATE_MUTATION = `
+  mutation CartCreate($lines: [CartLineInput!]!) {
+    cartCreate(input: { lines: $lines }) {
+      cart { checkoutUrl }
+      userErrors { field message }
+    }
+  }
+`;
+
+export async function createCart(variantId: string, quantity: number): Promise<string> {
+  const data = await shopifyFetch<{
+    cartCreate: {
+      cart: { checkoutUrl: string } | null;
+      userErrors: { field: string[]; message: string }[];
+    };
+  }>(CART_CREATE_MUTATION, { lines: [{ merchandiseId: variantId, quantity }] });
+
+  if (data.cartCreate.userErrors.length > 0) {
+    throw new Error(data.cartCreate.userErrors[0].message);
+  }
+  if (!data.cartCreate.cart) throw new Error('Cart creation failed');
+  return data.cartCreate.cart.checkoutUrl;
 }
 
 export async function getCollections(): Promise<ShopifyCollection[]> {

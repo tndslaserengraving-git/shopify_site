@@ -1,8 +1,9 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { ArrowLeft, ArrowRight } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 import { getProduct, formatPrice } from '@/lib/shopify';
 import ImageViewer from '@/components/shop/ImageViewer';
+import AddToCart from '@/components/shop/AddToCart';
 
 export const revalidate = 3600;
 
@@ -57,16 +58,18 @@ export default async function ProductPage({ params }: Props) {
             />
           )}
 
-          <Link href="/custom-order" className="btn-gold mb-4 inline-flex">
-            Start Custom Order <ArrowRight size={16} aria-hidden="true" />
-          </Link>
+          <AddToCart variants={product.variants} />
 
-          <p className="font-body text-white/30 text-sm mt-4">
-            Want this exact item?{' '}
-            <Link href="/contact" className="underline hover:text-white/60 transition-colors">
-              Contact us
+          <p className="font-body text-white/30 text-sm mt-6">
+            Need something custom?{' '}
+            <Link href="/custom-order" className="underline hover:text-white/60 transition-colors">
+              Start a custom order
             </Link>{' '}
-            and we&apos;ll get you sorted.
+            or{' '}
+            <Link href="/contact" className="underline hover:text-white/60 transition-colors">
+              contact us
+            </Link>
+            .
           </p>
         </div>
       </div>

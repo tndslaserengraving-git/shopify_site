@@ -4,7 +4,7 @@ import { ArrowRight } from 'lucide-react';
 import { getProducts } from '@/lib/shopify';
 
 export default async function GalleryTeaser() {
-  let images: { id: string; url: string; alt: string }[] = [];
+  let images: { id: string; url: string; alt: string; handle: string }[] = [];
 
   try {
     const products = await getProducts();
@@ -15,6 +15,7 @@ export default async function GalleryTeaser() {
         id: p.id,
         url: p.featuredImage!.url,
         alt: p.featuredImage!.altText ?? p.title,
+        handle: p.handle,
       }));
   } catch {
     // gallery hidden if fetch fails
@@ -47,13 +48,15 @@ export default async function GalleryTeaser() {
 
         <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
           {images.map((img) => (
-            <div
+            <Link
               key={img.id}
-              className="gallery-img-wrap relative rounded-md overflow-hidden cursor-pointer"
+              href={`/shop/${img.handle}`}
+              className="gallery-img-wrap relative rounded-md overflow-hidden no-underline"
               style={{
                 aspectRatio: '1',
                 border: '1px solid rgba(201,162,39,0.15)',
                 background: '#111214',
+                display: 'block',
               }}
             >
               <Image
@@ -69,7 +72,7 @@ export default async function GalleryTeaser() {
               >
                 <span className="tac-label" style={{ color: '#EDD56A' }}>View</span>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </div>

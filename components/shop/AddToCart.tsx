@@ -2,6 +2,7 @@
 import { useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { addToCart } from '@/app/shop/[handle]/actions';
+import { formatPrice } from '@/lib/shopify';
 import type { ShopifyVariant } from '@/lib/shopify';
 
 interface Props {
@@ -80,8 +81,18 @@ export default function AddToCart({ variants, requiresCustomization = false, pro
     }
   }
 
+  const displayPrice = selectedVariant
+    ? formatPrice(selectedVariant.price.amount, selectedVariant.price.currencyCode)
+    : null;
+
   return (
     <div className="flex flex-col gap-5">
+      {displayPrice && (
+        <p className="font-body font-bold text-2xl" style={{ color: '#C9A227' }}>
+          {displayPrice}
+        </p>
+      )}
+
       {showVariants && (
         <div className="flex flex-col gap-2">
           <label className="tac-label" style={{ fontSize: 9 }}>Option</label>

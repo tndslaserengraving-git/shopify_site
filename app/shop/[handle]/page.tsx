@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { ArrowLeft } from 'lucide-react';
-import { getProduct, formatPrice } from '@/lib/shopify';
+import { getProduct } from '@/lib/shopify';
 import { isCustomizable } from '@/lib/customizable-products';
 import ImageViewer from '@/components/shop/ImageViewer';
 import AddToCart from '@/components/shop/AddToCart';
@@ -16,11 +16,6 @@ export default async function ProductPage({ params }: Props) {
   const { handle } = params;
   const product = await getProduct(handle).catch(() => null);
   if (!product) notFound();
-
-  const price = formatPrice(
-    product.priceRange.minVariantPrice.amount,
-    product.priceRange.minVariantPrice.currencyCode,
-  );
 
   const images = product.images.length > 0 ? product.images : product.featuredImage ? [product.featuredImage] : [];
   const requiresCustomization = isCustomizable(product.title);
@@ -48,10 +43,6 @@ export default async function ProductPage({ params }: Props) {
           >
             {product.title}
           </h1>
-
-          <p className="font-body font-bold text-2xl mb-6" style={{ color: '#C9A227' }}>
-            {price}
-          </p>
 
           {product.descriptionHtml && (
             <div

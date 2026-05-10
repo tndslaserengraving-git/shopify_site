@@ -41,7 +41,7 @@ export default function AddToCart({ variants, requiresCustomization = false, pro
   }
 
   const selectedVariant = variants.find((v) => v.id === selectedId);
-  const isCustomVariant = selectedVariant?.title.toLowerCase() === 'custom';
+  const isCustomVariant = selectedVariant?.title.toLowerCase().startsWith('custom');
 
   async function handleAddToCart() {
     if (!selectedId) return;

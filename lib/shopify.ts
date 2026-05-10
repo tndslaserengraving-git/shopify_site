@@ -140,6 +140,10 @@ const PRODUCT_QUERY = `
               amount
               currencyCode
             }
+            image {
+              url
+              altText
+            }
           }
         }
       }
@@ -152,6 +156,7 @@ export interface ShopifyVariant {
   title: string;
   availableForSale: boolean;
   price: { amount: string; currencyCode: string };
+  image?: { url: string; altText: string | null } | null;
 }
 
 export interface ShopifyProductDetail {

@@ -9,6 +9,8 @@ interface Props {
   variants: ShopifyVariant[];
   requiresCustomization?: boolean;
   productTitle?: string;
+  selectedId: string;
+  onSelectId: (id: string) => void;
 }
 
 function customOrderSlug(title: string): string {
@@ -23,10 +25,9 @@ function customOrderSlug(title: string): string {
 
 const ACCEPTED_TYPES = '.jpg,.jpeg,.png,.pdf,.svg,.ai,.eps';
 
-export default function AddToCart({ variants, requiresCustomization = false, productTitle = '' }: Props) {
+export default function AddToCart({ variants, requiresCustomization = false, productTitle = '', selectedId, onSelectId }: Props) {
   const router = useRouter();
   const available = variants.filter((v) => v.availableForSale);
-  const [selectedId, setSelectedId] = useState(available[0]?.id ?? variants[0]?.id ?? '');
   const [quantity, setQuantity] = useState(1);
   const [personalization, setPersonalization] = useState('');
   const [fileName, setFileName] = useState('');
@@ -100,7 +101,7 @@ export default function AddToCart({ variants, requiresCustomization = false, pro
             {variants.map((v) => (
               <button
                 key={v.id}
-                onClick={() => setSelectedId(v.id)}
+                onClick={() => onSelectId(v.id)}
                 disabled={!v.availableForSale}
                 className="font-body font-bold transition-all"
                 style={{

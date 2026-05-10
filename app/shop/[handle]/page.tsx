@@ -3,8 +3,7 @@ import { notFound } from 'next/navigation';
 import { ArrowLeft } from 'lucide-react';
 import { getProduct } from '@/lib/shopify';
 import { isCustomizable } from '@/lib/customizable-products';
-import ImageViewer from '@/components/shop/ImageViewer';
-import AddToCart from '@/components/shop/AddToCart';
+import ProductView from '@/components/shop/ProductView';
 
 export const revalidate = 3600;
 
@@ -29,43 +28,13 @@ export default async function ProductPage({ params }: Props) {
         <ArrowLeft size={16} aria-hidden="true" /> Back to Shop
       </Link>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-        <div>
-          <ImageViewer images={images} title={product.title} />
-        </div>
-
-        <div>
-          <div className="section-rule" />
-          <span className="tac-label">Product</span>
-          <h1
-            className="font-heading font-black text-brand-text mt-2 mb-3"
-            style={{ fontSize: 'clamp(24px, 3vw, 36px)', letterSpacing: '-0.02em' }}
-          >
-            {product.title}
-          </h1>
-
-          {product.descriptionHtml && (
-            <div
-              className="font-body text-white/50 text-base leading-relaxed mb-8 prose prose-invert prose-sm max-w-none"
-              dangerouslySetInnerHTML={{ __html: product.descriptionHtml }}
-            />
-          )}
-
-          <AddToCart variants={product.variants} requiresCustomization={requiresCustomization} productTitle={product.title} />
-
-          <p className="font-body text-white/30 text-sm mt-6">
-            Need something custom?{' '}
-            <Link href="/custom-order" className="underline hover:text-white/60 transition-colors">
-              Start a custom order
-            </Link>{' '}
-            or{' '}
-            <Link href="/contact" className="underline hover:text-white/60 transition-colors">
-              contact us
-            </Link>
-            .
-          </p>
-        </div>
-      </div>
+      <ProductView
+        images={images}
+        variants={product.variants}
+        title={product.title}
+        descriptionHtml={product.descriptionHtml}
+        requiresCustomization={requiresCustomization}
+      />
     </div>
   );
 }

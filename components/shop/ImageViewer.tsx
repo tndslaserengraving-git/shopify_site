@@ -1,6 +1,5 @@
 'use client';
 
-import { useState } from 'react';
 import Image from 'next/image';
 
 interface ImageItem {
@@ -11,11 +10,11 @@ interface ImageItem {
 interface Props {
   images: ImageItem[];
   title: string;
+  activeIndex: number;
+  onActiveChange: (index: number) => void;
 }
 
-export default function ImageViewer({ images, title }: Props) {
-  const [active, setActive] = useState(0);
-
+export default function ImageViewer({ images, title, activeIndex, onActiveChange }: Props) {
   if (images.length === 0) {
     return (
       <div className="aspect-square bg-white/5 rounded-xl flex items-center justify-center">
@@ -24,6 +23,8 @@ export default function ImageViewer({ images, title }: Props) {
     );
   }
 
+  const safeActive = Math.min(activeIndex, images.length - 1);
+
   return (
     <div>
       <div
@@ -31,8 +32,8 @@ export default function ImageViewer({ images, title }: Props) {
         style={{ border: '1px solid rgba(201,162,39,0.18)' }}
       >
         <Image
-          src={images[active].url}
-          alt={images[active].altText ?? title}
+          src={images[safeActive].url}
+          alt={images[safeActive].altText ?? title}
           fill
           className="object-cover"
           priority
@@ -44,10 +45,10 @@ export default function ImageViewer({ images, title }: Props) {
           {images.map((img, i) => (
             <button
               key={i}
-              onClick={() => setActive(i)}
+              onClick={() => onActiveChange(i)}
               className="relative w-16 h-16 flex-shrink-0 rounded-md overflow-hidden focus:outline-none"
               style={{
-                border: i === active
+                border: i === safeActive
                   ? '2px solid rgba(201,162,39,0.8)'
                   : '1px solid rgba(201,162,39,0.15)',
               }}

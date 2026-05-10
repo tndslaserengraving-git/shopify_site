@@ -8,6 +8,7 @@ export const metadata: Metadata = {
   title: 'Top Notch Design Studio | Veteran-Owned Laser Engraving',
   description:
     'Custom laser engraving by a veteran-owned studio. Cutting boards, business cards, granite, and more.',
+  icons: { icon: '/tnds-logo-new.jpg' },
   openGraph: {
     title: 'Top Notch Design Studio | Veteran-Owned Laser Engraving',
     description:

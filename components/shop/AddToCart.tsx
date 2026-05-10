@@ -1,27 +1,54 @@
 'use client';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { addToCart } from '@/app/shop/[handle]/actions';
 import type { ShopifyVariant } from '@/lib/shopify';
 
 interface Props {
   variants: ShopifyVariant[];
+  requiresCustomization?: boolean;
 }
 
-export default function AddToCart({ variants }: Props) {
+const ACCEPTED_TYPES = '.jpg,.jpeg,.png,.pdf,.svg,.ai,.eps';
+
+export default function AddToCart({ variants, requiresCustomization = false }: Props) {
   const available = variants.filter((v) => v.availableForSale);
   const [selectedId, setSelectedId] = useState(available[0]?.id ?? variants[0]?.id ?? '');
   const [quantity, setQuantity] = useState(1);
+  const [personalization, setPersonalization] = useState('');
+  const [fileName, setFileName] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const fileRef = useRef<HTMLInputElement>(null);
 
   const showVariants = variants.length > 1 || (variants.length === 1 && variants[0].title !== 'Default Title');
 
+  function handleFile(e: React.ChangeEvent<HTMLInputElement>) {
+    const f = e.target.files?.[0];
+    setFileName(f ? f.name : '');
+  }
+
   async function handleAddToCart() {
     if (!selectedId) return;
+    if (requiresCustomization && !personalization.trim()) {
+      setError('Please enter your personalization text before adding to cart.');
+      return;
+    }
     setLoading(true);
     setError('');
+
+    const attributes: { key: string; value: string }[] = [];
+    if (requiresCustomization) {
+      attributes.push({ key: 'Personalization', value: personalization.trim() });
+      if (fileName) {
+        attributes.push({
+          key: 'Design File',
+          value: `${fileName} – please email your file to us via the Contact page after checkout`,
+        });
+      }
+    }
+
     try {
-      const checkoutUrl = await addToCart(selectedId, quantity);
+      const checkoutUrl = await addToCart(selectedId, quantity, attributes.length ? attributes : undefined);
       window.location.href = checkoutUrl;
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Something went wrong.');
@@ -63,6 +90,83 @@ export default function AddToCart({ variants }: Props) {
         </div>
       )}
 
+      {requiresCustomization && (
+        <>
+          <div className="flex flex-col gap-2">
+            <label
+              htmlFor="personalization"
+              className="tac-label"
+              style={{ fontSize: 9 }}
+            >
+              Personalization / Engraving Text <span style={{ color: '#e57373' }}>*</span>
+            </label>
+            <textarea
+              id="personalization"
+              rows={3}
+              placeholder="Enter the name, message, or text to be engraved…"
+              value={personalization}
+              onChange={(e) => setPersonalization(e.target.value)}
+              className="font-body text-brand-text resize-none"
+              style={{
+                background: 'rgba(255,255,255,0.04)',
+                border: '1px solid rgba(201,162,39,0.25)',
+                borderRadius: 3,
+                padding: '10px 12px',
+                fontSize: 13,
+                lineHeight: 1.5,
+                outline: 'none',
+                width: '100%',
+              }}
+            />
+          </div>
+
+          <div className="flex flex-col gap-2">
+            <label className="tac-label" style={{ fontSize: 9 }}>
+              Upload Design File <span className="font-body normal-case" style={{ fontSize: 9, color: 'rgba(255,255,255,0.35)' }}>(optional — JPG, PNG, PDF, SVG, AI)</span>
+            </label>
+            <div
+              onClick={() => fileRef.current?.click()}
+              className="flex items-center gap-3 cursor-pointer transition-colors"
+              style={{
+                background: 'rgba(255,255,255,0.03)',
+                border: '1px dashed rgba(201,162,39,0.3)',
+                borderRadius: 3,
+                padding: '10px 14px',
+              }}
+            >
+              <span className="font-body text-white/30" style={{ fontSize: 11 }}>
+                {fileName || 'Click to choose file…'}
+              </span>
+              {fileName && (
+                <button
+                  onClick={(e) => { e.stopPropagation(); setFileName(''); if (fileRef.current) fileRef.current.value = ''; }}
+                  className="font-body text-white/30 hover:text-white/60 transition-colors ml-auto"
+                  style={{ fontSize: 11 }}
+                  aria-label="Remove file"
+                >
+                  ✕
+                </button>
+              )}
+            </div>
+            <input
+              ref={fileRef}
+              type="file"
+              accept={ACCEPTED_TYPES}
+              onChange={handleFile}
+              className="sr-only"
+              aria-label="Upload design file"
+            />
+            {fileName && (
+              <p className="font-body text-white/35" style={{ fontSize: 11, lineHeight: 1.5 }}>
+                After checkout, please email your file to us via the{' '}
+                <a href="/contact" className="underline hover:text-white/60 transition-colors">Contact page</a>.
+                We&apos;ll confirm receipt before starting your order.
+              </p>
+            )}
+          </div>
+        </>
+      )}
+
       <div className="flex flex-col gap-2">
         <label className="tac-label" style={{ fontSize: 9 }}>Quantity</label>
         <div className="flex items-center gap-0" style={{ width: 'fit-content' }}>
@@ -70,15 +174,12 @@ export default function AddToCart({ variants }: Props) {
             onClick={() => setQuantity((q) => Math.max(1, q - 1))}
             className="font-body font-bold text-brand-text transition-colors hover:text-gold"
             style={{
-              width: 36,
-              height: 36,
+              width: 36, height: 36,
               border: '1px solid rgba(201,162,39,0.25)',
               borderRight: 'none',
               borderRadius: '3px 0 0 3px',
               background: 'rgba(255,255,255,0.03)',
-              fontSize: 16,
-              lineHeight: 1,
-              cursor: 'pointer',
+              fontSize: 16, lineHeight: 1, cursor: 'pointer',
             }}
             aria-label="Decrease quantity"
           >
@@ -87,8 +188,7 @@ export default function AddToCart({ variants }: Props) {
           <span
             className="font-body font-bold text-brand-text flex items-center justify-center"
             style={{
-              width: 48,
-              height: 36,
+              width: 48, height: 36,
               border: '1px solid rgba(201,162,39,0.25)',
               background: 'rgba(255,255,255,0.03)',
               fontSize: 14,
@@ -100,15 +200,12 @@ export default function AddToCart({ variants }: Props) {
             onClick={() => setQuantity((q) => q + 1)}
             className="font-body font-bold text-brand-text transition-colors hover:text-gold"
             style={{
-              width: 36,
-              height: 36,
+              width: 36, height: 36,
               border: '1px solid rgba(201,162,39,0.25)',
               borderLeft: 'none',
               borderRadius: '0 3px 3px 0',
               background: 'rgba(255,255,255,0.03)',
-              fontSize: 16,
-              lineHeight: 1,
-              cursor: 'pointer',
+              fontSize: 16, lineHeight: 1, cursor: 'pointer',
             }}
             aria-label="Increase quantity"
           >

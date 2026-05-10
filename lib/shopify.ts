@@ -189,13 +189,20 @@ const CART_CREATE_MUTATION = `
   }
 `;
 
-export async function createCart(variantId: string, quantity: number): Promise<string> {
+export async function createCart(
+  variantId: string,
+  quantity: number,
+  attributes?: { key: string; value: string }[],
+): Promise<string> {
+  const line: Record<string, unknown> = { merchandiseId: variantId, quantity };
+  if (attributes?.length) line.attributes = attributes;
+
   const data = await shopifyFetch<{
     cartCreate: {
       cart: { checkoutUrl: string } | null;
       userErrors: { field: string[]; message: string }[];
     };
-  }>(CART_CREATE_MUTATION, { lines: [{ merchandiseId: variantId, quantity }] });
+  }>(CART_CREATE_MUTATION, { lines: [line] });
 
   if (data.cartCreate.userErrors.length > 0) {
     throw new Error(data.cartCreate.userErrors[0].message);

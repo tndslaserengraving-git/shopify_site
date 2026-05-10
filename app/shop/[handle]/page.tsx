@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { ArrowLeft } from 'lucide-react';
 import { getProduct, formatPrice } from '@/lib/shopify';
+import { isCustomizable } from '@/lib/customizable-products';
 import ImageViewer from '@/components/shop/ImageViewer';
 import AddToCart from '@/components/shop/AddToCart';
 
@@ -22,6 +23,7 @@ export default async function ProductPage({ params }: Props) {
   );
 
   const images = product.images.length > 0 ? product.images : product.featuredImage ? [product.featuredImage] : [];
+  const requiresCustomization = isCustomizable(product.title);
 
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -58,7 +60,7 @@ export default async function ProductPage({ params }: Props) {
             />
           )}
 
-          <AddToCart variants={product.variants} />
+          <AddToCart variants={product.variants} requiresCustomization={requiresCustomization} />
 
           <p className="font-body text-white/30 text-sm mt-6">
             Need something custom?{' '}

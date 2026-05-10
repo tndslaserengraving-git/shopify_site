@@ -12,7 +12,7 @@ const STAR = (
 const PRODUCT_TILES = [
   { label: 'Cutting Board', tag: 'WOOD', keywords: ['cutting board', 'grill master', 'bbq board'] },
   { label: 'Metal Engraving', tag: 'METAL', keywords: ['stainless steel pet', 'pet id tag'] },
-  { label: 'Glass Etching', tag: 'GLASS', keywords: ['glass etching', 'custom glass'] },
+  { label: 'Business Cards', tag: 'METAL', keywords: ['business card'] },
   { label: 'Slate Coasters', tag: 'SLATE', keywords: ['slate zodiac', 'zodiac coaster', 'slate coaster'] },
 ];
 

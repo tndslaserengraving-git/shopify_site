@@ -1,4 +1,5 @@
-import { Shield, Check } from 'lucide-react';
+import Image from 'next/image';
+import { Check } from 'lucide-react';
 
 export default function VeteranStory() {
   const values = [
@@ -60,27 +61,23 @@ export default function VeteranStory() {
           </ul>
         </div>
 
-        {/* Owner photo placeholder */}
+        {/* Owner photo */}
         <div className="relative">
           <div
-            className="bracket-box rounded-lg flex flex-col items-center justify-center"
+            className="bracket-box rounded-lg overflow-hidden"
             style={{
               aspectRatio: '4/5',
-              background: '#0A0A0B',
               border: '1px solid rgba(201,162,39,0.15)',
-              backgroundImage:
-                'repeating-linear-gradient(45deg, transparent, transparent 16px, rgba(201,162,39,0.03) 16px, rgba(201,162,39,0.03) 17px)',
+              position: 'relative',
             }}
           >
-            <Shield
-              size={40}
-              className="text-gold mb-3"
-              style={{ opacity: 0.25 }}
-              aria-hidden="true"
+            <Image
+              src="/owner.jpg"
+              alt="Owner — Top Notch Design Studio"
+              fill
+              className="object-cover object-top"
+              sizes="(max-width: 768px) 100vw, 50vw"
             />
-            <span className="font-mono text-white/20" style={{ fontSize: 11 }}>
-              [ owner photo ]
-            </span>
           </div>
           {/* Gold accent bar */}
           <div

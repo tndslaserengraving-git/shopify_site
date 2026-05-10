@@ -3,6 +3,7 @@ export type ProductType =
   | 'business-cards'
   | 'granite'
   | 'acrylic'
+  | 'wine-caddy'
   | 'other';
 
 export type Material = 'wood' | 'slate' | 'acrylic' | 'glass' | 'metal';
@@ -46,6 +47,7 @@ export const PRODUCT_TYPE_LABELS: Record<ProductType, string> = {
   'business-cards': 'Business Cards',
   granite: 'Granite Cutting Board',
   acrylic: 'Acrylic',
+  'wine-caddy': 'Wine Caddy',
   other: 'Custom / Other',
 };
 
@@ -62,5 +64,6 @@ export const SIZE_OPTIONS: Record<ProductType, string[]> = {
   'business-cards': ['Standard 3.5×2"', 'Square 2.5×2.5"', 'Custom'],
   granite: ['8×10"', '12×16"', 'Custom'],
   acrylic: ['4×6"', '8×10"', '12×16"', 'Custom'],
+  'wine-caddy': ['Single Bottle', '2-Bottle', '3-Bottle', 'Custom'],
   other: ['Custom'],
 };

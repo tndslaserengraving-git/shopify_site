@@ -1,6 +1,6 @@
 'use client';
 import { useState } from 'react';
-import type { WizardState } from '@/types/wizard';
+import type { WizardState, ProductType } from '@/types/wizard';
 import { initialWizardState } from '@/types/wizard';
 import Step1ProductType from './steps/Step1ProductType';
 import Step2Details from './steps/Step2Details';
@@ -20,8 +20,22 @@ function canAdvance(state: WizardState): boolean {
   return false;
 }
 
-export default function OrderWizard() {
-  const [state, setState] = useState<WizardState>(initialWizardState);
+const VALID_TYPES: ProductType[] = ['cutting-board', 'business-cards', 'granite', 'acrylic', 'wine-caddy', 'other'];
+
+interface Props {
+  initialProductType?: string;
+}
+
+export default function OrderWizard({ initialProductType }: Props) {
+  const preSelected = VALID_TYPES.includes(initialProductType as ProductType)
+    ? (initialProductType as ProductType)
+    : undefined;
+
+  const [state, setState] = useState<WizardState>({
+    ...initialWizardState,
+    productType: preSelected ?? '',
+    step: preSelected ? 2 : 1,
+  });
   const [submitted, setSubmitted] = useState(false);
   const [submitError, setSubmitError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);

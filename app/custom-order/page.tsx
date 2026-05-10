@@ -4,7 +4,11 @@ export const metadata = {
   title: 'Custom Order | Top Notch Design Studio',
 };
 
-export default function CustomOrderPage() {
+interface Props {
+  searchParams: { product?: string };
+}
+
+export default function CustomOrderPage({ searchParams }: Props) {
   return (
     <div className="min-h-screen bg-brand-bg">
       <div className="bg-navy py-10 px-4 text-center">
@@ -15,7 +19,7 @@ export default function CustomOrderPage() {
           Tell us what you need and we'll bring it to life.
         </p>
       </div>
-      <OrderWizard />
+      <OrderWizard initialProductType={searchParams.product} />
     </div>
   );
 }

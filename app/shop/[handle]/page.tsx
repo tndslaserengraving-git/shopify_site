@@ -60,7 +60,7 @@ export default async function ProductPage({ params }: Props) {
             />
           )}
 
-          <AddToCart variants={product.variants} requiresCustomization={requiresCustomization} />
+          <AddToCart variants={product.variants} requiresCustomization={requiresCustomization} productTitle={product.title} />
 
           <p className="font-body text-white/30 text-sm mt-6">
             Need something custom?{' '}

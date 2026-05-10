@@ -1,16 +1,29 @@
 'use client';
 import { useState, useRef } from 'react';
+import { useRouter } from 'next/navigation';
 import { addToCart } from '@/app/shop/[handle]/actions';
 import type { ShopifyVariant } from '@/lib/shopify';
 
 interface Props {
   variants: ShopifyVariant[];
   requiresCustomization?: boolean;
+  productTitle?: string;
+}
+
+function customOrderSlug(title: string): string {
+  const t = title.toLowerCase();
+  if (t.includes('wine caddy') || t.includes('wine rack')) return 'wine-caddy';
+  if (t.includes('cutting board')) return 'cutting-board';
+  if (t.includes('business card')) return 'business-cards';
+  if (t.includes('granite')) return 'granite';
+  if (t.includes('acrylic')) return 'acrylic';
+  return 'other';
 }
 
 const ACCEPTED_TYPES = '.jpg,.jpeg,.png,.pdf,.svg,.ai,.eps';
 
-export default function AddToCart({ variants, requiresCustomization = false }: Props) {
+export default function AddToCart({ variants, requiresCustomization = false, productTitle = '' }: Props) {
+  const router = useRouter();
   const available = variants.filter((v) => v.availableForSale);
   const [selectedId, setSelectedId] = useState(available[0]?.id ?? variants[0]?.id ?? '');
   const [quantity, setQuantity] = useState(1);
@@ -27,8 +40,19 @@ export default function AddToCart({ variants, requiresCustomization = false }: P
     setFileName(f ? f.name : '');
   }
 
+  const selectedVariant = variants.find((v) => v.id === selectedId);
+  const isCustomVariant = selectedVariant?.title.toLowerCase() === 'custom';
+
   async function handleAddToCart() {
     if (!selectedId) return;
+
+    // "Custom" variant → send to custom order builder pre-selecting this product
+    if (isCustomVariant && productTitle) {
+      const slug = customOrderSlug(productTitle);
+      router.push(`/custom-order?product=${slug}`);
+      return;
+    }
+
     if (requiresCustomization && !personalization.trim()) {
       setError('Please enter your personalization text before adding to cart.');
       return;
@@ -230,7 +254,9 @@ export default function AddToCart({ variants, requiresCustomization = false }: P
         {available.length === 0
           ? 'SOLD OUT'
           : loading
-          ? 'REDIRECTING TO CHECKOUT…'
+          ? 'REDIRECTING…'
+          : isCustomVariant
+          ? 'START CUSTOM ORDER'
           : 'ADD TO CART'}
       </button>
 

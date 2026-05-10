@@ -4,9 +4,16 @@ import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://www.topnotchdesignstudio.com'),
   title: 'Top Notch Design Studio | Veteran-Owned Laser Engraving',
   description:
     'Custom laser engraving by a veteran-owned studio. Cutting boards, business cards, granite, and more.',
+  openGraph: {
+    title: 'Top Notch Design Studio | Veteran-Owned Laser Engraving',
+    description:
+      'Custom laser engraving by a veteran-owned studio. Cutting boards, business cards, granite, and more.',
+    images: [{ url: '/tnds-logo-new.jpg' }],
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

@@ -3,12 +3,17 @@ import './globals.css';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 
+const siteUrl = process.env.VERCEL_PROJECT_PRODUCTION_URL
+  ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+  : process.env.VERCEL_URL
+  ? `https://${process.env.VERCEL_URL}`
+  : 'http://localhost:3000';
+
 export const metadata: Metadata = {
-  metadataBase: new URL('https://www.topnotchdesignstudio.com'),
+  metadataBase: new URL(siteUrl),
   title: 'Top Notch Design Studio | Veteran-Owned Laser Engraving',
   description:
     'Custom laser engraving by a veteran-owned studio. Cutting boards, business cards, granite, and more.',
-  icons: { icon: '/tnds-logo-new.jpg' },
   openGraph: {
     title: 'Top Notch Design Studio | Veteran-Owned Laser Engraving',
     description:

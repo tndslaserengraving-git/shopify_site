@@ -8,6 +8,7 @@ export default function AdminReviewsPage() {
   const [reviews, setReviews] = useState<Review[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [actionError, setActionError] = useState('');
 
   async function fetchReviews(adminSecret: string) {
     setLoading(true);
@@ -32,16 +33,23 @@ export default function AdminReviewsPage() {
   }
 
   async function handleAction(id: string, action: 'approve' | 'reject') {
-    const res = await fetch(`/api/admin/reviews/${id}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${secret}`,
-      },
-      body: JSON.stringify({ action }),
-    });
-    if (res.ok) {
-      setReviews((prev) => prev.filter((r) => r.id !== id));
+    setActionError('');
+    try {
+      const res = await fetch(`/api/admin/reviews/${id}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${secret}`,
+        },
+        body: JSON.stringify({ action }),
+      });
+      if (res.ok) {
+        setReviews((prev) => prev.filter((r) => r.id !== id));
+      } else {
+        setActionError(`Failed to ${action} review. Please try again.`);
+      }
+    } catch {
+      setActionError(`Failed to ${action} review. Please try again.`);
     }
   }
 
@@ -89,6 +97,9 @@ export default function AdminReviewsPage() {
           <p className="font-body text-white/40">No reviews pending moderation.</p>
         ) : (
           <div className="flex flex-col gap-5">
+            {actionError && (
+              <p className="font-body text-sm" style={{ color: '#f87171' }}>{actionError}</p>
+            )}
             {reviews.map((review) => (
               <div
                 key={review.id}

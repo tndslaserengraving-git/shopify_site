@@ -75,6 +75,7 @@ export default function Footer() {
                 ['/shop', 'Shop'],
                 ['/custom-order', 'Custom Orders'],
                 ['/gallery', 'Gallery'],
+                ['/videos', 'Videos'],
                 ['/about', 'About'],
                 ['/contact', 'Contact'],
               ].map(([href, label]) => (

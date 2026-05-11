@@ -1,7 +1,9 @@
 import { createHmac, timingSafeEqual } from 'crypto';
 
 export function generateToken(orderId: string, productHandle: string, email: string): string {
-  return createHmac('sha256', process.env.REVIEW_HMAC_SECRET!)
+  const secret = process.env.REVIEW_HMAC_SECRET;
+  if (!secret) throw new Error('REVIEW_HMAC_SECRET environment variable is required');
+  return createHmac('sha256', secret)
     .update(`${orderId}:${productHandle}:${email}`)
     .digest('hex');
 }

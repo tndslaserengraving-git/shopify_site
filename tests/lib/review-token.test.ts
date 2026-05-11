@@ -22,6 +22,12 @@ describe('review token', () => {
     expect(t1).not.toBe(t2);
   });
 
+  it('different product handle produces different token', () => {
+    const t1 = generateToken('order1', 'board', 'a@b.com');
+    const t2 = generateToken('order1', 'caddy', 'a@b.com');
+    expect(t1).not.toBe(t2);
+  });
+
   it('verifies a valid token', () => {
     const token = generateToken('order1', 'board', 'a@b.com');
     expect(verifyToken(token, 'order1', 'board', 'a@b.com')).toBe(true);

@@ -1,6 +1,46 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabase-admin';
-import { validateAdminRequest } from '@/lib/admin-sig';
+import { validateAdminRequest, validateAdminToken } from '@/lib/admin-sig';
+
+function htmlResponse(message: string, status = 200) {
+  return new Response(
+    `<!DOCTYPE html><html><body style="font-family:sans-serif;padding:40px;background:#07070A;color:#fff"><p>${message}</p><a href="/reviews" style="color:#C9A227">View all reviews</a></body></html>`,
+    { status, headers: { 'Content-Type': 'text/html' } },
+  );
+}
+
+export async function GET(
+  request: NextRequest,
+  { params }: { params: { id: string } },
+) {
+  const { searchParams } = new URL(request.url);
+  const token = searchParams.get('token') ?? '';
+  const action = searchParams.get('action');
+
+  if (!validateAdminToken(token)) return htmlResponse('Unauthorized.', 401);
+
+  const { id } = params;
+  const { data: review } = await supabaseAdmin
+    .from('reviews')
+    .select('id')
+    .eq('id', id)
+    .maybeSingle();
+  if (!review) return htmlResponse('Review not found.', 404);
+
+  if (action === 'approve') {
+    const { error } = await supabaseAdmin.from('reviews').update({ approved: true }).eq('id', id);
+    if (error) return htmlResponse('Failed to approve review.', 500);
+    return htmlResponse('Review approved and published.');
+  }
+
+  if (action === 'reject') {
+    const { error } = await supabaseAdmin.from('reviews').delete().eq('id', id);
+    if (error) return htmlResponse('Failed to reject review.', 500);
+    return htmlResponse('Review rejected and deleted.');
+  }
+
+  return htmlResponse('Invalid action.', 400);
+}
 
 export async function POST(
   request: NextRequest,

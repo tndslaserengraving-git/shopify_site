@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabase-admin';
 import { verifyToken } from '@/lib/review-token';
+import { sendReviewNotificationEmail } from '@/lib/resend';
 
 export async function POST(request: NextRequest) {
   const body = await request.json().catch(() => null);
@@ -51,20 +52,33 @@ export async function POST(request: NextRequest) {
     token_used = token;
   }
 
-  const { error } = await supabaseAdmin.from('reviews').insert({
-    product_handle: product_handle.trim(),
-    author_name: author_name.trim(),
-    rating,
-    body: reviewBody.trim(),
-    verified_purchase,
-    approved,
-    token_used,
-  });
+  const { data: inserted, error } = await supabaseAdmin
+    .from('reviews')
+    .insert({
+      product_handle: product_handle.trim(),
+      author_name: author_name.trim(),
+      rating,
+      body: reviewBody.trim(),
+      verified_purchase,
+      approved,
+      token_used,
+    })
+    .select('id')
+    .single();
 
   if (error) {
     console.error('Review insert error:', error);
     return NextResponse.json({ error: 'Failed to save review' }, { status: 500 });
   }
+
+  sendReviewNotificationEmail({
+    id: inserted.id,
+    author_name: author_name.trim(),
+    product_handle: product_handle.trim(),
+    rating,
+    body: reviewBody.trim(),
+    verified_purchase,
+  }).catch((err) => console.error('Review notification error:', err));
 
   return NextResponse.json({ success: true }, { status: 201 });
 }

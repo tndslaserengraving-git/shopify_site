@@ -1,10 +1,10 @@
+import { unstable_noStore as noStore } from 'next/cache';
 import { supabaseAdmin as supabase } from '@/lib/supabase-admin';
 import type { Review } from '@/lib/types';
 import ReviewSubmitForm from './ReviewSubmitForm';
 
-export const dynamic = 'force-dynamic';
-
 export default async function ReviewsPage() {
+  noStore();
   const { data: reviews, error } = await supabase
     .from('reviews')
     .select('*')

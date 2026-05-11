@@ -30,4 +30,12 @@ describe('validateAdminRequest', () => {
     });
     expect(validateAdminRequest(req)).toBe(false);
   });
+
+  it('returns false when ADMIN_SECRET is not configured', () => {
+    vi.unstubAllEnvs();
+    const req = new Request('http://localhost', {
+      headers: { Authorization: 'Bearer ' },
+    });
+    expect(validateAdminRequest(req)).toBe(false);
+  });
 });

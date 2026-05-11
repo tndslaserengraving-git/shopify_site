@@ -16,6 +16,13 @@ export async function POST(
   const { action } = body;
   const { id } = params;
 
+  const { data: review } = await supabaseAdmin
+    .from('reviews')
+    .select('id')
+    .eq('id', id)
+    .maybeSingle();
+  if (!review) return NextResponse.json({ error: 'Review not found' }, { status: 404 });
+
   if (action === 'approve') {
     const { error } = await supabaseAdmin
       .from('reviews')

@@ -39,6 +39,8 @@ function makeFetch(...responses: object[]) {
   let callCount = 0;
   return vi.fn(() => {
     const response = responses[callCount++];
+    if (!response) throw new Error(`makeFetch called more times than responses provided (call ${callCount})`);
+
     return Promise.resolve({
       ok: true,
       json: () => Promise.resolve(response),

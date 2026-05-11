@@ -26,7 +26,7 @@
 
 **Files:**
 - Create: `lib/youtube.ts`
-- Create: `__tests__/lib/youtube.test.ts`
+- Create: `tests/lib/youtube.test.ts`
 
 - [ ] **Step 1: Write the failing tests**
 

@@ -72,15 +72,19 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Failed to save review' }, { status: 500 });
   }
 
-  sendReviewNotificationEmail({
-    id: inserted.id,
-    author_name: author_name.trim(),
-    product_handle: product_handle.trim(),
-    rating,
-    body: reviewBody.trim(),
-    verified_purchase,
-    photo_url: photo_url ?? null,
-  }).catch((err) => console.error('Review notification error:', err));
+  try {
+    await sendReviewNotificationEmail({
+      id: inserted.id,
+      author_name: author_name.trim(),
+      product_handle: product_handle.trim(),
+      rating,
+      body: reviewBody.trim(),
+      verified_purchase,
+      photo_url: photo_url ?? null,
+    });
+  } catch (err) {
+    console.error('Review notification error:', err);
+  }
 
   return NextResponse.json({ success: true }, { status: 201 });
 }

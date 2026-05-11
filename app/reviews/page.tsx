@@ -1,4 +1,4 @@
-import { supabase } from '@/lib/supabase';
+import { supabaseAdmin as supabase } from '@/lib/supabase-admin';
 import type { Review } from '@/lib/types';
 import ReviewSubmitForm from './ReviewSubmitForm';
 

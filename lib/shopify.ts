@@ -26,7 +26,7 @@ async function shopifyFetch<T>(
       'X-Shopify-Storefront-Access-Token': token(),
     },
     body: JSON.stringify({ query, variables }),
-    cache: 'no-store',
+    next: { revalidate: 3600 },
   } as RequestInit);
 
   if (!res.ok) throw new Error(`Shopify API error: ${res.status}`);

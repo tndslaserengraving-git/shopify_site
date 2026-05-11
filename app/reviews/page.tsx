@@ -5,11 +5,12 @@ import ReviewSubmitForm from './ReviewSubmitForm';
 export const dynamic = 'force-dynamic';
 
 export default async function ReviewsPage() {
-  const { data: reviews } = await supabase
+  const { data: reviews, error } = await supabase
     .from('reviews')
     .select('*')
     .eq('approved', true)
     .order('created_at', { ascending: false });
+  if (error) console.error('Failed to fetch reviews:', error);
 
   return (
     <div style={{ background: '#07070A', minHeight: '100vh' }}>

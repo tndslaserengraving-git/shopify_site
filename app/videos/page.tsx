@@ -79,6 +79,8 @@ export default async function VideosPage() {
                 title={featured.title}
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
+                loading="lazy"
+                sandbox="allow-scripts allow-same-origin allow-presentation"
                 className="w-full h-full"
               />
             </div>

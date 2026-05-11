@@ -7,6 +7,7 @@ import CustomOrderBand from '@/components/home/CustomOrderBand';
 import ProcessSteps from '@/components/home/ProcessSteps';
 import GalleryTeaser from '@/components/home/GalleryTeaser';
 import VeteranStory from '@/components/home/VeteranStory';
+import ReviewsSection from '@/components/home/ReviewsSection';
 
 export default function HomePage() {
   return (
@@ -18,6 +19,7 @@ export default function HomePage() {
       <ProcessSteps />
       <GalleryTeaser />
       <VeteranStory />
+      <ReviewsSection />
     </>
   );
 }

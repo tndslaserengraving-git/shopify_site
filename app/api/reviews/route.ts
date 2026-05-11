@@ -35,11 +35,14 @@ export async function POST(request: NextRequest) {
     if (!verifyToken(token, order_id, product_handle, email)) {
       return NextResponse.json({ error: 'Invalid review token' }, { status: 400 });
     }
-    const { data: existing } = await supabaseAdmin
+    const { data: existing, error: checkError } = await supabaseAdmin
       .from('reviews')
       .select('id')
       .eq('token_used', token)
       .maybeSingle();
+    if (checkError) {
+      return NextResponse.json({ error: 'Failed to validate token' }, { status: 500 });
+    }
     if (existing) {
       return NextResponse.json({ error: 'Token has already been used' }, { status: 400 });
     }
@@ -59,6 +62,7 @@ export async function POST(request: NextRequest) {
   });
 
   if (error) {
+    console.error('Review insert error:', error);
     return NextResponse.json({ error: 'Failed to save review' }, { status: 500 });
   }
 

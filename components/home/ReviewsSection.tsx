@@ -3,14 +3,20 @@ import { supabase } from '@/lib/supabase';
 import type { Review } from '@/lib/types';
 
 export default async function ReviewsSection() {
-  const { data: reviews } = await supabase
-    .from('reviews')
-    .select('id, author_name, rating, body, verified_purchase')
-    .eq('approved', true)
-    .order('created_at', { ascending: false })
-    .limit(3);
+  let reviews: Pick<Review, 'id' | 'author_name' | 'rating' | 'body'>[] = [];
+  try {
+    const { data } = await supabase
+      .from('reviews')
+      .select('id, author_name, rating, body')
+      .eq('approved', true)
+      .order('created_at', { ascending: false })
+      .limit(3);
+    reviews = data ?? [];
+  } catch {
+    return null;
+  }
 
-  if (!reviews || reviews.length === 0) return null;
+  if (reviews.length === 0) return null;
 
   return (
     <section style={{ background: '#07070A', borderTop: '1px solid rgba(201,162,39,0.1)' }}>
@@ -22,7 +28,7 @@ export default async function ReviewsSection() {
           </h2>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
-          {(reviews as Pick<Review, 'id' | 'author_name' | 'rating' | 'body' | 'verified_purchase'>[]).map(
+          {reviews.map(
             (review) => (
               <div
                 key={review.id}

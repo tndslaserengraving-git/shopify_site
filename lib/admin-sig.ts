@@ -9,5 +9,6 @@ export function validateAdminRequest(request: Request): boolean {
   const expected = Buffer.from(secret);
   const dummy = Buffer.alloc(expected.length);
   const candidate = provided.length === expected.length ? provided : dummy;
-  return provided.length === expected.length && timingSafeEqual(candidate, expected);
+  const match = timingSafeEqual(candidate, expected);
+  return provided.length === expected.length && match;
 }

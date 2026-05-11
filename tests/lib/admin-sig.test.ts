@@ -34,7 +34,7 @@ describe('validateAdminRequest', () => {
   it('returns false when ADMIN_SECRET is not configured', () => {
     vi.unstubAllEnvs();
     const req = new Request('http://localhost', {
-      headers: { Authorization: 'Bearer ' },
+      headers: { Authorization: 'Bearer test-secret' },
     });
     expect(validateAdminRequest(req)).toBe(false);
   });

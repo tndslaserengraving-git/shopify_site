@@ -21,6 +21,14 @@ export default function ReviewSubmitForm() {
 
   function handlePhotoChange(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0] ?? null;
+    if (file && file.size > 4 * 1024 * 1024) {
+      setErrorMsg('Image must be under 4MB');
+      setStatus('error');
+      e.target.value = '';
+      return;
+    }
+    setStatus('idle');
+    setErrorMsg('');
     setPhoto(file);
     setPhotoPreview(file ? URL.createObjectURL(file) : null);
   }
@@ -165,6 +173,9 @@ export default function ReviewSubmitForm() {
             padding: '8px 12px',
           }}
         />
+        <p className="font-body text-xs mt-1" style={{ color: 'rgba(255,255,255,0.3)' }}>
+          JPEG, PNG, WebP or GIF — max 4MB
+        </p>
         {photoPreview && (
           <img
             src={photoPreview}

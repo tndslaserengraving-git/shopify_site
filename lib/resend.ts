@@ -66,6 +66,7 @@ export async function sendReviewNotificationEmail(review: {
   rating: number;
   body: string;
   verified_purchase: boolean;
+  photo_url: string | null;
 }): Promise<void> {
   const resend = new Resend(process.env.RESEND_API_KEY);
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://tndslaserengraving.com';
@@ -84,6 +85,7 @@ export async function sendReviewNotificationEmail(review: {
       <tr><td style="padding:4px 12px 4px 0;font-weight:600">Rating:</td><td style="font-size:18px;color:#C9A227">${stars}</td></tr>
       <tr><td style="padding:4px 12px 4px 0;font-weight:600;vertical-align:top">Review:</td><td>${esc(review.body)}</td></tr>
     </table>
+    ${review.photo_url ? `<p style="margin-top:16px"><img src="${review.photo_url}" alt="Customer photo" style="max-width:300px;max-height:300px;border-radius:4px;object-fit:cover" /></p>` : ''}
     <p style="margin-top:24px;font-family:sans-serif">
       <a href="${base}&action=approve" style="background:#16a34a;color:white;padding:10px 20px;text-decoration:none;border-radius:4px;margin-right:12px;font-size:14px">Approve</a>
       <a href="${base}&action=reject" style="background:#dc2626;color:white;padding:10px 20px;text-decoration:none;border-radius:4px;font-size:14px">Reject</a>

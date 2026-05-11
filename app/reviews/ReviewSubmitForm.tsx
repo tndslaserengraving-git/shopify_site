@@ -14,17 +14,36 @@ export default function ReviewSubmitForm() {
   const [name, setName] = useState('');
   const [product, setProduct] = useState('');
   const [body, setBody] = useState('');
+  const [photo, setPhoto] = useState<File | null>(null);
+  const [photoPreview, setPhotoPreview] = useState<string | null>(null);
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
   const [errorMsg, setErrorMsg] = useState('');
+
+  function handlePhotoChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0] ?? null;
+    setPhoto(file);
+    setPhotoPreview(file ? URL.createObjectURL(file) : null);
+  }
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setStatus('submitting');
     try {
+      let photo_url: string | null = null;
+      if (photo) {
+        const fd = new FormData();
+        fd.append('file', photo);
+        const uploadRes = await fetch('/api/reviews/upload', { method: 'POST', body: fd });
+        if (!uploadRes.ok) {
+          const d = await uploadRes.json();
+          throw new Error(d.error ?? 'Photo upload failed');
+        }
+        photo_url = (await uploadRes.json()).url;
+      }
       const res = await fetch('/api/reviews', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ product_handle: product, author_name: name, rating, body }),
+        body: JSON.stringify({ product_handle: product, author_name: name, rating, body, photo_url }),
       });
       if (!res.ok) {
         const data = await res.json();
@@ -128,6 +147,31 @@ export default function ReviewSubmitForm() {
           }}
           placeholder="Tell us about your experience…"
         />
+      </div>
+
+      <div>
+        <label className="tac-label block mb-2" style={{ fontSize: 9 }}>
+          PHOTO <span style={{ color: 'rgba(255,255,255,0.3)', fontWeight: 400 }}>(optional)</span>
+        </label>
+        <input
+          type="file"
+          accept="image/jpeg,image/png,image/webp,image/gif"
+          onChange={handlePhotoChange}
+          className="font-body text-sm text-white/60 w-full"
+          style={{
+            background: 'rgba(255,255,255,0.05)',
+            border: '1px solid rgba(201,162,39,0.2)',
+            borderRadius: 4,
+            padding: '8px 12px',
+          }}
+        />
+        {photoPreview && (
+          <img
+            src={photoPreview}
+            alt="Preview"
+            style={{ marginTop: 8, maxHeight: 120, borderRadius: 4, objectFit: 'cover' }}
+          />
+        )}
       </div>
 
       {status === 'error' && (

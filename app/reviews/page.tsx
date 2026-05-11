@@ -45,6 +45,20 @@ export default async function ReviewsPage() {
                   )}
                 </div>
                 <p className="font-body text-white/80 mb-3">{review.body}</p>
+                {review.photo_url && (
+                  <img
+                    src={review.photo_url}
+                    alt={`Photo from ${review.author_name}`}
+                    style={{
+                      maxWidth: 240,
+                      maxHeight: 240,
+                      borderRadius: 4,
+                      objectFit: 'cover',
+                      marginBottom: 12,
+                      display: 'block',
+                    }}
+                  />
+                )}
                 <p className="font-body text-white/40 text-sm">
                   — {review.author_name} ·{' '}
                   {new Date(review.created_at).toLocaleDateString('en-US', {

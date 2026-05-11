@@ -7,7 +7,7 @@ export async function POST(request: NextRequest) {
   const body = await request.json().catch(() => null);
   if (!body) return NextResponse.json({ error: 'Invalid JSON' }, { status: 400 });
 
-  const { product_handle, author_name, rating, body: reviewBody, token, order_id, email } = body;
+  const { product_handle, author_name, rating, body: reviewBody, token, order_id, email, photo_url } = body;
 
   if (!product_handle?.trim() || !author_name?.trim() || !reviewBody?.trim()) {
     return NextResponse.json(
@@ -62,6 +62,7 @@ export async function POST(request: NextRequest) {
       verified_purchase,
       approved,
       token_used,
+      photo_url: photo_url ?? null,
     })
     .select('id')
     .single();
@@ -78,6 +79,7 @@ export async function POST(request: NextRequest) {
     rating,
     body: reviewBody.trim(),
     verified_purchase,
+    photo_url: photo_url ?? null,
   }).catch((err) => console.error('Review notification error:', err));
 
   return NextResponse.json({ success: true }, { status: 201 });

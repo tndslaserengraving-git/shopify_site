@@ -4,7 +4,7 @@ import { useState } from 'react';
 const PRODUCTS = [
   { handle: 'cutting-board', label: 'Cutting Board' },
   { handle: 'business-card', label: 'Business Card' },
-  { handle: 'granite-engraving', label: 'Granite Engraving' },
+  { handle: 'slate-engraving', label: 'Slate Engraving' },
   { handle: 'custom-order', label: 'Custom Order' },
 ];
 

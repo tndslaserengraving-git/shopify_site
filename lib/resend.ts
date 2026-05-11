@@ -88,6 +88,7 @@ export async function sendReviewNotificationEmail(review: {
     ${review.photo_url ? `<p style="margin-top:16px"><img src="${review.photo_url}" alt="Customer photo" style="max-width:300px;max-height:300px;border-radius:4px;object-fit:cover" /></p>` : ''}
     <p style="margin-top:24px;font-family:sans-serif">
       <a href="${base}&action=approve" style="background:#16a34a;color:white;padding:10px 20px;text-decoration:none;border-radius:4px;margin-right:12px;font-size:14px">Approve</a>
+      <a href="${base}&action=verify" style="background:#0369a1;color:white;padding:10px 20px;text-decoration:none;border-radius:4px;margin-right:12px;font-size:14px">Approve as Verified</a>
       <a href="${base}&action=reject" style="background:#dc2626;color:white;padding:10px 20px;text-decoration:none;border-radius:4px;font-size:14px">Reject</a>
     </p>
   `;

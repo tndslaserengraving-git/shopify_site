@@ -33,6 +33,15 @@ export async function GET(
     return htmlResponse('Review approved and published.');
   }
 
+  if (action === 'verify') {
+    const { error } = await supabaseAdmin
+      .from('reviews')
+      .update({ approved: true, verified_purchase: true })
+      .eq('id', id);
+    if (error) return htmlResponse('Failed to approve review.', 500);
+    return htmlResponse('Review approved and marked as verified purchase.');
+  }
+
   if (action === 'reject') {
     const { error } = await supabaseAdmin.from('reviews').delete().eq('id', id);
     if (error) return htmlResponse('Failed to reject review.', 500);
@@ -72,11 +81,20 @@ export async function POST(
     return NextResponse.json({ success: true });
   }
 
+  if (action === 'verify') {
+    const { error } = await supabaseAdmin
+      .from('reviews')
+      .update({ approved: true, verified_purchase: true })
+      .eq('id', id);
+    if (error) return NextResponse.json({ error: 'Failed to verify' }, { status: 500 });
+    return NextResponse.json({ success: true });
+  }
+
   if (action === 'reject') {
     const { error } = await supabaseAdmin.from('reviews').delete().eq('id', id);
     if (error) return NextResponse.json({ error: 'Failed to reject' }, { status: 500 });
     return NextResponse.json({ success: true });
   }
 
-  return NextResponse.json({ error: 'action must be "approve" or "reject"' }, { status: 400 });
+  return NextResponse.json({ error: 'action must be "approve", "verify", or "reject"' }, { status: 400 });
 }

@@ -19,6 +19,8 @@ const KEYWORDS = [
   'family coaster',
   'cedar wood sign',
   'cedar sign',
+  'license plate',
+  'custom plate',
 ];
 
 export function isCustomizable(title: string): boolean {

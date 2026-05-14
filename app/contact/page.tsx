@@ -20,10 +20,10 @@ export default function ContactPage() {
       <div className="flex flex-col gap-3 mb-10">
         {[
           {
-            href: 'mailto:topnotchdesignstudio@email.com',
+            href: 'mailto:tndslaserengraving@gmail.com',
             icon: Mail,
             label: 'Email',
-            value: 'topnotchdesignstudio@email.com',
+            value: 'tndslaserengraving@gmail.com',
             external: false,
           },
           {

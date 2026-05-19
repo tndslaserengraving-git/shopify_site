@@ -1,21 +1,26 @@
-import { getProducts } from '@/lib/shopify';
+import { supabaseAdmin } from '@/lib/supabase-admin';
 import GalleryGrid from '@/components/gallery/GalleryGrid';
 
-export const revalidate = 3600;
+export const revalidate = 60;
 
 export default async function GalleryPage() {
-  let images: { id: string; handle: string; url: string; alt: string }[] = [];
+  let images: { id: string; url: string; alt: string; caption: string | null }[] = [];
 
   try {
-    const products = await getProducts();
-    images = products
-      .filter((p) => p.featuredImage)
-      .map((p) => ({
-        id: p.id,
-        handle: p.handle,
-        url: p.featuredImage!.url,
-        alt: p.featuredImage!.altText ?? p.title,
+    const { data } = await supabaseAdmin
+      .from('gallery_images')
+      .select('id, public_url, alt_text, caption')
+      .order('sort_order', { ascending: true })
+      .order('created_at', { ascending: false });
+
+    if (data) {
+      images = data.map((row) => ({
+        id: row.id,
+        url: row.public_url,
+        alt: row.alt_text || 'Custom laser engraving work',
+        caption: row.caption ?? null,
       }));
+    }
   } catch {
     // show empty state below
   }

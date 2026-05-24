@@ -59,23 +59,43 @@ export default function AdminGalleryPage() {
     setUploadError('');
     setUploadSuccess('');
 
-    const formData = new FormData();
-    formData.append('file', file);
-    formData.append('alt_text', altText);
-    formData.append('caption', caption);
-
     try {
-      const res = await fetch('/api/admin/gallery/upload', {
+      // Step 1: Get a signed upload URL (file never passes through Vercel)
+      const reqRes = await fetch('/api/admin/gallery/request-upload', {
         method: 'POST',
-        headers: { Authorization: `Bearer ${secret}` },
-        body: formData,
+        headers: { Authorization: `Bearer ${secret}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ filename: file.name }),
       });
-      if (!res.ok) {
-        const body = await res.json().catch(() => ({}));
-        setUploadError(body.error ?? 'Upload failed.');
+      if (!reqRes.ok) {
+        const body = await reqRes.json().catch(() => ({}));
+        setUploadError(body.error ?? 'Failed to initiate upload.');
         return;
       }
-      const newImage: GalleryImage = await res.json();
+      const { signedUrl, storagePath } = await reqRes.json();
+
+      // Step 2: Upload file directly to Supabase (no size limit)
+      const uploadRes = await fetch(signedUrl, {
+        method: 'PUT',
+        headers: { 'Content-Type': file.type },
+        body: file,
+      });
+      if (!uploadRes.ok) {
+        setUploadError('File upload to storage failed.');
+        return;
+      }
+
+      // Step 3: Save the database record
+      const confirmRes = await fetch('/api/admin/gallery/confirm-upload', {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${secret}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ storagePath, altText, caption }),
+      });
+      if (!confirmRes.ok) {
+        const body = await confirmRes.json().catch(() => ({}));
+        setUploadError(body.error ?? 'Failed to save photo.');
+        return;
+      }
+      const newImage: GalleryImage = await confirmRes.json();
       setImages((prev) => [newImage, ...prev]);
       setFile(null);
       setAltText('');

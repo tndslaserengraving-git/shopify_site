@@ -21,7 +21,9 @@ const KEYWORDS = [
   'cedar sign',
   'license plate',
   'custom plate',
-];
+'hat with custom leatherette patch',
+'leatherette patch hat',
+ 'custom leatherette patch',];
 
 export function isCustomizable(title: string): boolean {
   const lower = title.toLowerCase();

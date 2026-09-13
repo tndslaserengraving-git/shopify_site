@@ -4,8 +4,8 @@ import { useState, useCallback } from 'react';
 import Link from 'next/link';
 import ImageViewer from './ImageViewer';
 import AddToCart from './AddToCart';
-import type { ShopifyVariant } from '@/lib/shopify';
-import { findOptionImage, primaryOptionName } from '@/lib/variant-image';
+import type { ShopifyVariant, ShopifyProductOption } from '@/lib/shopify';
+import { optionThumbnail, primaryOptionName } from '@/lib/variant-image';
 
 interface ImageItem {
   url: string;
@@ -15,12 +15,13 @@ interface ImageItem {
 interface Props {
   images: ImageItem[];
   variants: ShopifyVariant[];
+  options: ShopifyProductOption[];
   title: string;
   descriptionHtml?: string;
   requiresCustomization?: boolean;
 }
 
-export default function ProductView({ images, variants, title, descriptionHtml, requiresCustomization }: Props) {
+export default function ProductView({ images, variants, options, title, descriptionHtml, requiresCustomization }: Props) {
   const available = variants.filter((v) => v.availableForSale);
   const [selectedId, setSelectedId] = useState(available[0]?.id ?? variants[0]?.id ?? '');
   const [activeIndex, setActiveIndex] = useState(0);
@@ -36,7 +37,9 @@ export default function ProductView({ images, variants, title, descriptionHtml, 
     ? selectedVariant?.selectedOptions.find((o) => o.name === colorOption)?.value
     : undefined;
   const mainImageUrl =
-    colorOption && colorValue ? findOptionImage(variants, colorOption, colorValue) : selectedVariant?.image?.url;
+    colorOption && colorValue
+      ? optionThumbnail(options, variants, colorOption, colorValue)
+      : selectedVariant?.image?.url;
 
   const displayImages = (() => {
     if (!mainImageUrl) return images;
@@ -81,6 +84,7 @@ export default function ProductView({ images, variants, title, descriptionHtml, 
 
         <AddToCart
           variants={variants}
+          options={options}
           requiresCustomization={requiresCustomization}
           productTitle={title}
           selectedId={selectedId}

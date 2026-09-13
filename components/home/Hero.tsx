@@ -9,13 +9,7 @@ const STAR = (
   </svg>
 );
 
-const PRODUCT_TILES = [
-  { label: 'Cutting Board', tag: 'WOOD', keywords: ['cutting board', 'grill master', 'bbq board'] },
-  { label: 'Metal Engraving', tag: 'METAL', keywords: ['stainless steel pet', 'pet id tag'] },
-  { label: 'Business Cards', tag: 'METAL', keywords: ['business card'] },
-  { label: 'Slate Coasters', tag: 'SLATE', keywords: ['slate zodiac', 'zodiac coaster', 'slate coaster'] },
-];
-
+const PRODUCT_TILES = [ { label: 'Custom Hat', tag: 'APPAREL', keywords: ['hat with custom leatherette patch'] }, { label: 'Engraved Flask', tag: 'METAL', keywords: ['laser engraved metal flask'] }, { label: 'Business Cards', tag: 'METAL', keywords: ['business card'] }, { label: 'Tumblers', tag: 'METAL', keywords: ['laser engraved tumbler'] }, ]; 
 export default async function Hero() {
   const products = await getProducts().catch(() => []);
 

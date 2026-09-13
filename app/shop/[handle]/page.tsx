@@ -31,6 +31,7 @@ export default async function ProductPage({ params }: Props) {
       <ProductView
         images={images}
         variants={product.variants}
+        options={product.options}
         title={product.title}
         descriptionHtml={product.descriptionHtml}
         requiresCustomization={requiresCustomization}

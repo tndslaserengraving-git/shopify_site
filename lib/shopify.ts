@@ -133,10 +133,7 @@ const PRODUCT_QUERY = `
       variants(first: 20) {
         edges {
           node {
-            id
-            title
-            availableForSale
-            price {
+            id title availableForSale selectedOptions { name value } price {
               amount
               currencyCode
             }
@@ -151,11 +148,7 @@ const PRODUCT_QUERY = `
   }
 `;
 
-export interface ShopifyVariant {
-  id: string;
-  title: string;
-  availableForSale: boolean;
-  price: { amount: string; currencyCode: string };
+export interface ShopifyVariant { id: string; title: string; availableForSale: boolean; selectedOptions: { name: string; value: string }[]; price: { amount: string; currencyCode: string };
   image?: { url: string; altText: string | null } | null;
 }
 

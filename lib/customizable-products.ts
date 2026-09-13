@@ -23,7 +23,10 @@ const KEYWORDS = [
   'custom plate',
 'hat with custom leatherette patch',
 'leatherette patch hat',
- 'custom leatherette patch',];
+ 'custom leatherette patch',
+'laser engraved metal flask',
+'engraved metal flask',
+'metal flask',];
 
 export function isCustomizable(title: string): boolean {
   const lower = title.toLowerCase();

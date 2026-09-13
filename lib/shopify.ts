@@ -130,7 +130,7 @@ const PRODUCT_QUERY = `
           }
         }
       }
-      variants(first: 20) {
+      variants(first: 100) {
         edges {
           node {
             id title availableForSale selectedOptions { name value } price {

@@ -5,6 +5,7 @@ import Link from 'next/link';
 import ImageViewer from './ImageViewer';
 import AddToCart from './AddToCart';
 import type { ShopifyVariant } from '@/lib/shopify';
+import { findOptionImage, primaryOptionName } from '@/lib/variant-image';
 
 interface ImageItem {
   url: string;
@@ -26,13 +27,23 @@ export default function ProductView({ images, variants, title, descriptionHtml, 
 
   const selectedVariant = variants.find((v) => v.id === selectedId);
 
+  // The main photo follows only the "Color"-style option (e.g. hat color),
+  // never an add-on option like Patch — so picking a patch never swaps
+  // out the main hat photo.
+  const optionNames = variants[0]?.selectedOptions?.map((o) => o.name) ?? [];
+  const colorOption = primaryOptionName(optionNames);
+  const colorValue = colorOption
+    ? selectedVariant?.selectedOptions.find((o) => o.name === colorOption)?.value
+    : undefined;
+  const mainImageUrl =
+    colorOption && colorValue ? findOptionImage(variants, colorOption, colorValue) : selectedVariant?.image?.url;
+
   const displayImages = (() => {
-    const vi = selectedVariant?.image;
-    if (!vi?.url) return images;
-    const idx = images.findIndex((img) => img.url === vi.url);
+    if (!mainImageUrl) return images;
+    const idx = images.findIndex((img) => img.url === mainImageUrl);
     if (idx === 0) return images;
     if (idx > 0) return [images[idx], ...images.slice(0, idx), ...images.slice(idx + 1)];
-    return [vi, ...images];
+    return [{ url: mainImageUrl, altText: title }, ...images];
   })();
 
   const handleSelectVariant = useCallback((id: string) => {

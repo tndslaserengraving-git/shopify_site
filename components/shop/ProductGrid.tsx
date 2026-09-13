@@ -1,6 +1,7 @@
 'use client';
 import { useState } from 'react';
 import ProductCard from '@/components/ui/ProductCard';
+import { orderProducts } from '@/lib/product-order';
 import type { ShopifyProduct, ShopifyCollection } from '@/types/shopify';
 
 interface Props {
@@ -11,10 +12,12 @@ interface Props {
 export default function ProductGrid({ products, collections }: Props) {
   const [activeCollection, setActiveCollection] = useState<string | null>(null);
 
+  const ordered = orderProducts(products);
+
   const filtered =
     activeCollection === null
-      ? products
-      : products.filter((p) => p.collections.some((c) => c.id === activeCollection));
+      ? ordered
+      : ordered.filter((p) => p.collections.some((c) => c.id === activeCollection));
 
   return (
     <div>

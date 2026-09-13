@@ -3,11 +3,12 @@ import { useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { addToCart } from '@/app/shop/[handle]/actions';
 import { formatPrice } from '@/lib/shopify';
-import type { ShopifyVariant } from '@/lib/shopify';
-import { findOptionImage, orderedOptionNames } from '@/lib/variant-image';
+import type { ShopifyVariant, ShopifyProductOption } from '@/lib/shopify';
+import { optionThumbnail, orderedOptionNames } from '@/lib/variant-image';
 
 interface Props {
   variants: ShopifyVariant[];
+  options: ShopifyProductOption[];
   requiresCustomization?: boolean;
   productTitle?: string;
   selectedId: string;
@@ -26,12 +27,13 @@ function customOrderSlug(title: string): string {
 
 const ACCEPTED_TYPES = '.jpg,.jpeg,.png,.pdf,.svg,.ai,.eps';
 
-export default function AddToCart({ variants, requiresCustomization = false, productTitle = '', selectedId, onSelectId }: Props) {
+export default function AddToCart({ variants, options, requiresCustomization = false, productTitle = '', selectedId, onSelectId }: Props) {
   const router = useRouter();
   const available = variants.filter((v) => v.availableForSale);
   const [quantity, setQuantity] = useState(1);
   const [personalization, setPersonalization] = useState('');
   const [fileName, setFileName] = useState('');
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const fileRef = useRef<HTMLInputElement>(null);
@@ -41,6 +43,7 @@ export default function AddToCart({ variants, requiresCustomization = false, pro
   function handleFile(e: React.ChangeEvent<HTMLInputElement>) {
     const f = e.target.files?.[0];
     setFileName(f ? f.name : '');
+    setSelectedFile(f ?? null);
   }
 
   const selectedVariant = variants.find((v) => v.id === selectedId);
@@ -73,7 +76,7 @@ export default function AddToCart({ variants, requiresCustomization = false, pro
   }
 
   function imageFor(name: string, value: string): string | null {
-    return findOptionImage(variants, name, value);
+    return optionThumbnail(options, variants, name, value);
   }
 
   function handleOptionChange(name: string, value: string) {
@@ -113,11 +116,20 @@ export default function AddToCart({ variants, requiresCustomization = false, pro
     const attributes: { key: string; value: string }[] = [];
     if (requiresCustomization) {
       attributes.push({ key: 'Personalization', value: personalization.trim() });
-      if (fileName) {
-        attributes.push({
-          key: 'Design File',
-          value: `${fileName} – please email your file to us via the Contact page after checkout`,
-        });
+
+      if (selectedFile) {
+        try {
+          const uploadData = new FormData();
+          uploadData.append('file', selectedFile);
+          const res = await fetch('/api/design-upload', { method: 'POST', body: uploadData });
+          const json = await res.json();
+          if (!res.ok) throw new Error(json.error || 'File upload failed');
+          attributes.push({ key: 'Design File', value: json.url });
+        } catch (e) {
+          setError(e instanceof Error ? e.message : 'Failed to upload your design file. Please try again.');
+          setLoading(false);
+          return;
+        }
       }
     }
 
@@ -276,7 +288,7 @@ export default function AddToCart({ variants, requiresCustomization = false, pro
               </span>
               {fileName && (
                 <button
-                  onClick={(e) => { e.stopPropagation(); setFileName(''); if (fileRef.current) fileRef.current.value = ''; }}
+                  onClick={(e) => { e.stopPropagation(); setFileName(''); setSelectedFile(null); if (fileRef.current) fileRef.current.value = ''; }}
                   className="font-body text-white/30 hover:text-white/60 transition-colors ml-auto"
                   style={{ fontSize: 11 }}
                   aria-label="Remove file"
@@ -295,9 +307,7 @@ export default function AddToCart({ variants, requiresCustomization = false, pro
             />
             {fileName && (
               <p className="font-body text-white/35" style={{ fontSize: 11, lineHeight: 1.5 }}>
-                After checkout, please email your file to us via the{' '}
-                <a href="/contact" className="underline hover:text-white/60 transition-colors">Contact page</a>.
-                We&apos;ll confirm receipt before starting your order.
+                Your file will be uploaded and attached to your order automatically.
               </p>
             )}
           </div>
@@ -367,7 +377,7 @@ export default function AddToCart({ variants, requiresCustomization = false, pro
         {available.length === 0
           ? 'SOLD OUT'
           : loading
-          ? 'REDIRECTING…'
+          ? 'PROCESSING…'
           : isCustomVariant
           ? 'START CUSTOM ORDER'
           : 'ADD TO CART'}

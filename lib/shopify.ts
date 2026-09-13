@@ -144,12 +144,30 @@ const PRODUCT_QUERY = `
           }
         }
       }
+      options {
+        name
+        optionValues {
+          name
+          swatch {
+            image {
+              previewImage {
+                url
+              }
+            }
+          }
+        }
+      }
     }
   }
 `;
 
 export interface ShopifyVariant { id: string; title: string; availableForSale: boolean; selectedOptions: { name: string; value: string }[]; price: { amount: string; currencyCode: string };
   image?: { url: string; altText: string | null } | null;
+}
+
+export interface ShopifyProductOption {
+  name: string;
+  optionValues: { name: string; swatchImageUrl: string | null }[];
 }
 
 export interface ShopifyProductDetail {
@@ -161,11 +179,16 @@ export interface ShopifyProductDetail {
   featuredImage: { url: string; altText: string | null } | null;
   images: { url: string; altText: string | null }[];
   variants: ShopifyVariant[];
+  options: ShopifyProductOption[];
 }
 
-type RawProductDetail = Omit<ShopifyProductDetail, 'images' | 'variants'> & {
+type RawProductDetail = Omit<ShopifyProductDetail, 'images' | 'variants' | 'options'> & {
   images: { edges: { node: { url: string; altText: string | null } }[] };
   variants: { edges: { node: ShopifyVariant }[] };
+  options: {
+    name: string;
+    optionValues: { name: string; swatch: { image: { previewImage: { url: string } | null } | null } | null }[];
+  }[];
 };
 
 export async function getProduct(handle: string): Promise<ShopifyProductDetail | null> {
@@ -175,6 +198,13 @@ export async function getProduct(handle: string): Promise<ShopifyProductDetail |
     ...data.product,
     images: data.product.images.edges.map((e) => e.node),
     variants: data.product.variants.edges.map((e) => e.node),
+    options: data.product.options.map((o) => ({
+      name: o.name,
+      optionValues: o.optionValues.map((v) => ({
+        name: v.name,
+        swatchImageUrl: v.swatch?.image?.previewImage?.url ?? null,
+      })),
+    })),
   };
 }
 

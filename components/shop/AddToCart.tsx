@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import { addToCart } from '@/app/shop/[handle]/actions';
 import { formatPrice } from '@/lib/shopify';
 import type { ShopifyVariant } from '@/lib/shopify';
+import { findOptionImage, orderedOptionNames } from '@/lib/variant-image';
 
 interface Props {
   variants: ShopifyVariant[];
@@ -44,6 +45,53 @@ export default function AddToCart({ variants, requiresCustomization = false, pro
 
   const selectedVariant = variants.find((v) => v.id === selectedId);
   const isCustomVariant = selectedVariant?.title.toLowerCase().startsWith('custom');
+
+  // Group variants by each real Shopify option (e.g. "Color", "Patch")
+  // instead of one flat list of every combination. Color-style options
+  // always render first, before add-ons like Patch.
+  const rawOptionNames: string[] = variants[0]?.selectedOptions?.map((o) => o.name) ?? [];
+  const optionNames = orderedOptionNames(rawOptionNames);
+  const hasMultipleOptions = optionNames.length > 1;
+
+  function valuesFor(name: string): string[] {
+    const seen = new Set<string>();
+    const out: string[] = [];
+    for (const v of variants) {
+      const val = v.selectedOptions.find((o) => o.name === name)?.value;
+      if (val && !seen.has(val)) {
+        seen.add(val);
+        out.push(val);
+      }
+    }
+    return out;
+  }
+
+  function isValueAvailable(name: string, value: string): boolean {
+    return variants.some(
+      (v) => v.availableForSale && v.selectedOptions.some((o) => o.name === name && o.value === value),
+    );
+  }
+
+  function imageFor(name: string, value: string): string | null {
+    return findOptionImage(variants, name, value);
+  }
+
+  function handleOptionChange(name: string, value: string) {
+    const currentMap: Record<string, string> = Object.fromEntries(
+      (selectedVariant?.selectedOptions ?? []).map((o) => [o.name, o.value]),
+    );
+    currentMap[name] = value;
+
+    // Try an exact match on the full combination first.
+    let match = variants.find((v) =>
+      v.selectedOptions.every((o) => currentMap[o.name] === o.value),
+    );
+    // Fall back to the first variant that at least has this option/value.
+    if (!match) {
+      match = variants.find((v) => v.selectedOptions.some((o) => o.name === name && o.value === value));
+    }
+    if (match) onSelectId(match.id);
+  }
 
   async function handleAddToCart() {
     if (!selectedId) return;
@@ -94,7 +142,60 @@ export default function AddToCart({ variants, requiresCustomization = false, pro
         </p>
       )}
 
-      {showVariants && (
+      {showVariants && hasMultipleOptions && (
+        <>
+          {optionNames.map((name) => (
+            <div key={name} className="flex flex-col gap-2">
+              <label className="tac-label" style={{ fontSize: 9 }}>{name}</label>
+              <div className="flex flex-wrap gap-2">
+                {valuesFor(name).map((value) => {
+                  const isSelected =
+                    selectedVariant?.selectedOptions.find((o) => o.name === name)?.value === value;
+                  const available = isValueAvailable(name, value);
+                  const thumb = imageFor(name, value);
+                  return (
+                    <button
+                      key={value}
+                      onClick={() => handleOptionChange(name, value)}
+                      disabled={!available}
+                      className="font-body font-bold transition-all flex items-center gap-2"
+                      style={{
+                        padding: thumb ? '6px 14px 6px 6px' : '6px 14px',
+                        fontSize: 11,
+                        letterSpacing: '0.06em',
+                        textTransform: 'uppercase',
+                        borderRadius: 3,
+                        border: isSelected
+                          ? '1px solid rgba(201,162,39,0.8)'
+                          : '1px solid rgba(201,162,39,0.25)',
+                        background: isSelected ? 'rgba(201,162,39,0.12)' : 'transparent',
+                        color: available ? '#EDD56A' : 'rgba(255,255,255,0.25)',
+                        cursor: available ? 'pointer' : 'not-allowed',
+                        textDecoration: available ? 'none' : 'line-through',
+                        opacity: available ? 1 : 0.5,
+                      }}
+                    >
+                      {thumb && (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img
+                          src={thumb}
+                          alt={value}
+                          width={28}
+                          height={28}
+                          style={{ objectFit: 'cover', borderRadius: 2, flexShrink: 0 }}
+                        />
+                      )}
+                      {value}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          ))}
+        </>
+      )}
+
+      {showVariants && !hasMultipleOptions && (
         <div className="flex flex-col gap-2">
           <label className="tac-label" style={{ fontSize: 9 }}>Option</label>
           <div className="flex flex-wrap gap-2">

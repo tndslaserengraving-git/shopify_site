@@ -38,7 +38,7 @@ async function shopifyFetch<T>(
 
 const PRODUCTS_QUERY = `
   query GetProducts($first: Int!) {
-    products(first: $first) {
+    products(first: $first, sortKey: CREATED_AT, reverse: true) {
       edges {
         node {
           id

@@ -14,6 +14,7 @@ const KEYWORDS = [
   'wedding ring box',
   'ring box',
   'slate plaque',
+  'premium natural stone',
   'wooden coaster',
   'wood coaster',
   'family coaster',

@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Camera, PlayCircle, Shield } from 'lucide-react';
+import { Camera, PlayCircle, Music2, Shield } from 'lucide-react';
 
 // Inline SVG logo — static (no animation needed in footer)
 function LogoMark({ size = 36 }: { size?: number }) {
@@ -98,7 +98,7 @@ export default function Footer() {
             <div className="flex gap-3">
               {[
                 { href: 'https://www.instagram.com/tndslaserengraving', Icon: Camera, label: 'Instagram' },
-                { href: 'https://www.youtube.com/@TNDSLaserEngraving', Icon: PlayCircle, label: 'YouTube' },
+                { href: 'https://www.youtube.com/@TNDSLaserEngraving', Icon: PlayCircle, label: 'YouTube' },{ href: 'https://www.tiktok.com/@tnds.laser.engrav', Icon: Music2, label: 'TikTok' },
               ].map(({ href, Icon, label }) => (
                 <a
                   key={label}

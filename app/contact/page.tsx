@@ -1,5 +1,5 @@
 'use client';
-import { Mail, ExternalLink, Camera, ArrowRight } from 'lucide-react';
+ import { Mail, ExternalLink, Camera, PlayCircle, Music2, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 
 export default function ContactPage() {
@@ -40,6 +40,7 @@ export default function ContactPage() {
             value: '@tndslaserengraving',
             external: true,
           },
+      { href: 'https://www.youtube.com/@TNDSLaserEngraving', icon: PlayCircle, label: 'YouTube', value: '@TNDSLaserEngraving', external: true, }, { href: 'https://www.tiktok.com/@tnds.laser.engrav', icon: Music2, label: 'TikTok', value: '@tnds.laser.engrav', external: true, },
         ].map(({ href, icon: Icon, label, value, external }) => (
           <a
             key={label}

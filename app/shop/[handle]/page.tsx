@@ -5,7 +5,7 @@ import { getProduct } from '@/lib/shopify';
 import { isCustomizable } from '@/lib/customizable-products';
 import ProductView from '@/components/shop/ProductView';
 
-export const revalidate = 3600;
+export const revalidate = 300;
 
 interface Props {
   params: { handle: string };

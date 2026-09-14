@@ -2,7 +2,7 @@ import { getProducts, getCollections } from '@/lib/shopify';
 import type { ShopifyProduct, ShopifyCollection } from '@/types/shopify';
 import ProductGrid from '@/components/shop/ProductGrid';
 
-export const revalidate = 3600;
+export const revalidate = 300;
 
 export default async function ShopPage() {
   let products: ShopifyProduct[] = [];

@@ -122,7 +122,7 @@ const PRODUCT_QUERY = `
         url
         altText
       }
-      images(first: 10) {
+      images(first: 50) {
         edges {
           node {
             url

@@ -143,6 +143,10 @@ const PRODUCT_QUERY = `
             }
           }
         }
+        pageInfo {
+          hasNextPage
+          endCursor
+        }
       }
       options {
         name
@@ -155,6 +159,31 @@ const PRODUCT_QUERY = `
               }
             }
           }
+        }
+      }
+    }
+  }
+`;
+
+const PRODUCT_VARIANTS_PAGE_QUERY = `
+  query GetProductVariantsPage($id: ID!, $cursor: String) {
+    product(id: $id) {
+      variants(first: 100, after: $cursor) {
+        edges {
+          node {
+            id title availableForSale selectedOptions { name value } price {
+              amount
+              currencyCode
+            }
+            image {
+              url
+              altText
+            }
+          }
+        }
+        pageInfo {
+          hasNextPage
+          endCursor
         }
       }
     }
@@ -184,7 +213,10 @@ export interface ShopifyProductDetail {
 
 type RawProductDetail = Omit<ShopifyProductDetail, 'images' | 'variants' | 'options'> & {
   images: { edges: { node: { url: string; altText: string | null } }[] };
-  variants: { edges: { node: ShopifyVariant }[] };
+  variants: {
+    edges: { node: ShopifyVariant }[];
+    pageInfo: { hasNextPage: boolean; endCursor: string | null };
+  };
   options: {
     name: string;
     optionValues: { name: string; swatch: { image: { previewImage: { url: string } | null } | null } | null }[];
@@ -194,10 +226,27 @@ type RawProductDetail = Omit<ShopifyProductDetail, 'images' | 'variants' | 'opti
 export async function getProduct(handle: string): Promise<ShopifyProductDetail | null> {
   const data = await shopifyFetch<{ product: RawProductDetail | null }>(PRODUCT_QUERY, { handle });
   if (!data.product) return null;
+
+  let variants: ShopifyVariant[] = data.product.variants.edges.map((e) => e.node);
+  let pageInfo = data.product.variants.pageInfo;
+
+  // Some products (e.g. multiple option groups multiplied together) can
+  // exceed a single 100-item page of variants. Keep fetching pages until
+  // there are none left, so every combination is available on the site.
+  while (pageInfo?.hasNextPage) {
+    const pageData = await shopifyFetch<{
+      product: { variants: RawProductDetail['variants'] } | null;
+    }>(PRODUCT_VARIANTS_PAGE_QUERY, { id: data.product.id, cursor: pageInfo.endCursor });
+    const nextVariants = pageData.product?.variants;
+    if (!nextVariants) break;
+    variants = variants.concat(nextVariants.edges.map((e) => e.node));
+    pageInfo = nextVariants.pageInfo;
+  }
+
   return {
     ...data.product,
     images: data.product.images.edges.map((e) => e.node),
-    variants: data.product.variants.edges.map((e) => e.node),
+    variants,
     options: data.product.options.map((o) => ({
       name: o.name,
       optionValues: o.optionValues.map((v) => ({
